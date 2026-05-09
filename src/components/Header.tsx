@@ -1,0 +1,43 @@
+import type { View } from '../types';
+
+interface Props {
+  view: View;
+  onNavigate: (view: View) => void;
+}
+
+const items: { id: View; label: string }[] = [
+  { id: 'home', label: '首頁' },
+  { id: 'flashcard', label: '字卡' },
+  { id: 'quiz', label: '測驗' },
+  { id: 'library', label: '單字' },
+];
+
+export function Header({ view, onNavigate }: Props) {
+  return (
+    <header className="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-slate-200">
+      <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-2">
+        <button
+          onClick={() => onNavigate('home')}
+          className="font-bold text-lg text-slate-900 mr-auto"
+        >
+          GEPT 單字
+        </button>
+        <nav className="flex gap-1">
+          {items.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
+                view === item.id
+                  ? 'bg-blue-50 text-blue-700'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
