@@ -4,6 +4,8 @@ export interface Word {
   word: string;
   pos: string;
   zh: string;
+  example?: string;
+  example_zh?: string;
 }
 
 export interface WordWithLevel extends Word {

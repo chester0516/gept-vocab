@@ -128,6 +128,12 @@ export function Flashcard({
             <div className="mt-3 text-sm text-blue-100">{word.pos}</div>
             <div className="mt-6 text-base text-blue-100">{word.word}</div>
           </div>
+          {word.example && (
+            <div className="mt-5 px-4 py-3 bg-blue-700/60 rounded-xl text-sm max-w-xs text-center">
+              <p className="text-white italic leading-snug">{word.example}</p>
+              <p className="mt-1.5 text-blue-200 text-xs leading-snug">{word.example_zh}</p>
+            </div>
+          )}
           <div className="absolute bottom-4 left-4 text-xs text-blue-200">
             再次點擊翻回正面
           </div>
