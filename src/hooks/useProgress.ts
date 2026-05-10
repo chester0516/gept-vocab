@@ -4,6 +4,7 @@ import {
   addId,
   appendRecord,
   loadProgress,
+  mergeProgress,
   removeId,
   saveProgress,
   toggleId,
@@ -40,6 +41,14 @@ export function useProgress() {
     setState({ knownIds: {}, favoriteIds: {}, wrongIds: {}, history: [] });
   }, []);
 
+  const replace = useCallback((next: ProgressState) => {
+    setState(next);
+  }, []);
+
+  const merge = useCallback((other: ProgressState) => {
+    setState((s) => mergeProgress(s, other));
+  }, []);
+
   return {
     state,
     toggleKnown,
@@ -48,6 +57,8 @@ export function useProgress() {
     clearWrong,
     recordQuiz,
     resetAll,
+    replace,
+    merge,
   };
 }
 

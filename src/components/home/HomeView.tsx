@@ -2,6 +2,7 @@ import type { Level, View } from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { elementaryWords, intermediateWords } from '../../lib/data';
 import { ProgressBar } from '../shared/ProgressBar';
+import { BackupSection } from './BackupSection';
 
 interface Props {
   progress: UseProgress;
@@ -122,6 +123,8 @@ export function HomeView({ progress, onNavigate }: Props) {
           </ul>
         </div>
       )}
+
+      <BackupSection progress={progress} />
 
       {(knownCount > 0 || favCount > 0 || wrongCount > 0 || recent.length > 0) && (
         <div className="text-center">
