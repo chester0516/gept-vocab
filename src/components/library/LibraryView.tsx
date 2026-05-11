@@ -48,15 +48,15 @@ export function LibraryView({ progress }: Props) {
   return (
     <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
       <div className="flex flex-wrap gap-2 justify-between items-center">
-        <div className="inline-flex rounded-lg bg-slate-100 p-1">
+        <div className="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
           {(['elementary', 'intermediate'] as Level[]).map((lv) => (
             <button
               key={lv}
               onClick={() => setLevel(lv)}
               className={`px-4 py-1.5 text-sm rounded-md transition-colors ${
                 level === lv
-                  ? 'bg-white text-slate-900 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {lv === 'elementary' ? '初級' : '中級'}
@@ -68,7 +68,7 @@ export function LibraryView({ progress }: Props) {
           placeholder="搜尋單字或中文…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="px-3 py-1.5 rounded-md border border-slate-200 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -79,8 +79,8 @@ export function LibraryView({ progress }: Props) {
             onClick={() => setFilter(f.id)}
             className={`px-3 py-1 rounded-full text-sm transition-colors ${
               filter === f.id
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                ? 'bg-blue-600 dark:bg-blue-700 text-white'
+                : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
             }`}
           >
             {f.label}
@@ -88,38 +88,42 @@ export function LibraryView({ progress }: Props) {
         ))}
       </div>
 
-      <div className="text-sm text-slate-600">
+      <div className="text-sm text-slate-600 dark:text-slate-400">
         共 {filtered.length} 字
       </div>
 
-      <ul className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
+      <ul className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
         {filtered.length === 0 ? (
-          <li className="px-4 py-8 text-center text-slate-400">
+          <li className="px-4 py-8 text-center text-slate-400 dark:text-slate-500">
             沒有符合的單字
           </li>
         ) : (
           filtered.map((w) => (
             <li
               key={w.id}
-              className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700/50"
             >
               <SpeakerButton text={w.word} size="sm" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-semibold text-slate-900 truncate">
+                  <span className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {w.word}
                   </span>
-                  <span className="text-xs text-slate-500">{w.pos}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                    {w.pos}
+                  </span>
                 </div>
-                <div className="text-sm text-slate-600 truncate">{w.zh}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300 truncate">
+                  {w.zh}
+                </div>
               </div>
               <button
                 onClick={() => progress.toggleFavorite(w.id)}
                 aria-label="收藏"
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   progress.state.favoriteIds[w.id]
-                    ? 'text-amber-500'
-                    : 'text-slate-300 hover:text-slate-500'
+                    ? 'text-amber-500 dark:text-amber-400'
+                    : 'text-slate-300 dark:text-slate-600 hover:text-slate-500 dark:hover:text-slate-400'
                 }`}
               >
                 <svg
@@ -141,8 +145,8 @@ export function LibraryView({ progress }: Props) {
                 aria-label="已學會"
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   progress.state.knownIds[w.id]
-                    ? 'text-emerald-600'
-                    : 'text-slate-300 hover:text-slate-500'
+                    ? 'text-emerald-600 dark:text-emerald-400'
+                    : 'text-slate-300 dark:text-slate-600 hover:text-slate-500 dark:hover:text-slate-400'
                 }`}
               >
                 <svg

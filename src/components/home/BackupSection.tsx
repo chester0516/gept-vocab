@@ -78,29 +78,29 @@ export function BackupSection({ progress }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
+    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 space-y-3">
       <div>
         <h2 className="font-semibold">資料備份</h2>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
           進度存在瀏覽器本地。換瀏覽器或裝置時可用此匯出再匯入。
         </p>
       </div>
       <div className="grid sm:grid-cols-3 gap-2">
         <button
           onClick={handleExport}
-          className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700"
+          className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-sm"
         >
           匯出備份
         </button>
         <button
           onClick={() => triggerImport('merge')}
-          className="px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 text-sm hover:bg-slate-50"
+          className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
         >
           合併匯入
         </button>
         <button
           onClick={() => triggerImport('replace')}
-          className="px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 text-sm hover:bg-slate-50"
+          className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
         >
           覆蓋匯入
         </button>
@@ -120,7 +120,9 @@ export function BackupSection({ progress }: Props) {
       {message && (
         <div
           className={`text-sm ${
-            message.kind === 'ok' ? 'text-emerald-600' : 'text-rose-600'
+            message.kind === 'ok'
+              ? 'text-emerald-600 dark:text-emerald-400'
+              : 'text-rose-600 dark:text-rose-400'
           }`}
         >
           {message.text}

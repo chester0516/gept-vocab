@@ -62,24 +62,24 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
       <div className="flex items-center justify-between">
         <button
           onClick={onCancel}
-          className="text-sm text-slate-500 hover:text-slate-900"
+          className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
         >
           ← 結束測驗
         </button>
-        <div className="text-sm text-slate-600">
+        <div className="text-sm text-slate-600 dark:text-slate-400">
           第 {index + 1} / {questions.length} 題
         </div>
       </div>
 
-      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+      <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
         <div
-          className="h-full bg-blue-600 transition-all"
+          className="h-full bg-blue-600 dark:bg-blue-500 transition-all"
           style={{ width: `${((index + 1) / questions.length) * 100}%` }}
         />
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8">
-        <div className="text-xs uppercase tracking-wide text-slate-500 mb-3">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 sm:p-8">
+        <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
           {q.type === 'en2zh'
             ? '請選擇正確的中文意思'
             : q.type === 'zh2en'
@@ -98,7 +98,9 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
           {q.type === 'listen' && (
             <div className="flex flex-col items-center gap-3">
               <SpeakerButton text={q.word.word} size="lg" />
-              <div className="text-xs text-slate-400">點擊喇叭再聽一次</div>
+              <div className="text-xs text-slate-400 dark:text-slate-500">
+                點擊喇叭再聽一次
+              </div>
             </div>
           )}
         </div>
@@ -116,15 +118,15 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
                 disabled={selected !== null}
                 className={`text-left px-4 py-3 rounded-lg border transition-colors ${
                   showCorrect
-                    ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+                    ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-500 dark:border-emerald-400 text-emerald-900 dark:text-emerald-200'
                     : showWrong
-                      ? 'bg-rose-50 border-rose-500 text-rose-900'
+                      ? 'bg-rose-50 dark:bg-rose-900/30 border-rose-500 dark:border-rose-400 text-rose-900 dark:text-rose-200'
                       : selected !== null
-                        ? 'bg-white border-slate-200 text-slate-500'
-                        : 'bg-white border-slate-200 hover:border-blue-400 hover:bg-blue-50'
+                        ? 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30'
                 }`}
               >
-                <span className="inline-block w-6 text-slate-400">
+                <span className="inline-block w-6 text-slate-400 dark:text-slate-500">
                   {i + 1}.
                 </span>
                 {opt}
@@ -137,7 +139,9 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
           <div className="mt-4 flex items-center justify-between animate-fade-in">
             <div
               className={`text-sm font-semibold ${
-                isCorrect ? 'text-emerald-600' : 'text-rose-600'
+                isCorrect
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : 'text-rose-600 dark:text-rose-400'
               }`}
             >
               {isCorrect
@@ -146,7 +150,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
             </div>
             <button
               onClick={next}
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white"
             >
               {index === questions.length - 1 ? '看結果' : '下一題 →'}
             </button>
@@ -154,7 +158,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
         )}
       </div>
 
-      <div className="text-xs text-slate-400 text-center">
+      <div className="text-xs text-slate-400 dark:text-slate-500 text-center">
         鍵盤: 1–4 選答  ·  Enter 下一題
       </div>
     </div>

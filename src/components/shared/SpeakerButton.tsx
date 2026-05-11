@@ -22,7 +22,7 @@ export function SpeakerButton({
   const colorClass =
     variant === 'dark'
       ? 'bg-white/15 hover:bg-white/25 active:bg-white/35 text-white'
-      : 'bg-blue-50 hover:bg-blue-100 active:bg-blue-200 text-blue-700';
+      : 'bg-blue-50 hover:bg-blue-100 active:bg-blue-200 text-blue-700 dark:bg-blue-900/40 dark:hover:bg-blue-900/60 dark:active:bg-blue-900/80 dark:text-blue-300';
 
   return (
     <button

@@ -43,7 +43,7 @@ export function Flashcard({
         onClick={() => setFlipped((f) => !f)}
       >
         {/* Front */}
-        <div className="card-face absolute inset-0 bg-white rounded-3xl shadow-xl border border-slate-200 flex flex-col items-center justify-center px-6 py-8">
+        <div className="card-face absolute inset-0 bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center px-6 py-8">
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={(e) => {
@@ -53,8 +53,8 @@ export function Flashcard({
               aria-label="收藏"
               className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
                 isFavorite
-                  ? 'bg-amber-100 text-amber-500'
-                  : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
+                  ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-500 dark:text-amber-400'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-600'
               }`}
             >
               <svg
@@ -77,8 +77,8 @@ export function Flashcard({
               aria-label="已學會"
               className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
                 isKnown
-                  ? 'bg-emerald-100 text-emerald-600'
-                  : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
+                  ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-600'
               }`}
             >
               <svg
@@ -96,16 +96,18 @@ export function Flashcard({
             </button>
           </div>
           <div className="absolute top-4 left-4">
-            <span className="text-xs uppercase tracking-wide text-slate-500 bg-slate-100 px-2 py-1 rounded">
+            <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">
               {word.level === 'elementary' ? '初級' : '中級'}
             </span>
           </div>
 
           <div className="text-center">
-            <div className="text-4xl sm:text-5xl font-bold text-slate-900 break-all">
+            <div className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100 break-all">
               {word.word}
             </div>
-            <div className="mt-3 text-sm text-slate-500">{word.pos}</div>
+            <div className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+              {word.pos}
+            </div>
           </div>
 
           <div
@@ -114,7 +116,7 @@ export function Flashcard({
           >
             <SpeakerButton text={word.word} size="md" />
           </div>
-          <div className="absolute bottom-4 left-4 text-xs text-slate-400">
+          <div className="absolute bottom-4 left-4 text-xs text-slate-400 dark:text-slate-500">
             點擊翻面 / 空白鍵
           </div>
         </div>
