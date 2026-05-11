@@ -32,13 +32,13 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
   return (
     <div className="card-flip-container w-full">
       <div
-        className={`card-flip-inner relative w-full aspect-[3/2] cursor-pointer ${
+        className={`card-flip-inner relative w-full min-h-[18rem] cursor-pointer ${
           flipped ? 'is-flipped' : ''
         }`}
         onClick={() => setFlipped((f) => !f)}
       >
         {/* Front */}
-        <div className="card-face absolute inset-0 bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center px-6 py-8">
+        <div className="card-face bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center px-6 py-8">
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               type="button"
@@ -114,14 +114,14 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
         </div>
 
         {/* Back */}
-        <div className="card-face card-face-back absolute inset-0 bg-blue-600 text-white rounded-3xl shadow-xl flex flex-col items-center justify-center px-6 py-8">
+        <div className="card-face card-face-back bg-blue-600 text-white rounded-3xl shadow-xl flex flex-col items-center justify-center gap-4 px-6 pt-8 pb-10">
           <div className="text-center">
             <div className="text-3xl sm:text-4xl font-semibold break-all">{word.zh}</div>
             <div className="mt-3 text-sm text-blue-100">{word.pos}</div>
             <div className="mt-6 text-base text-blue-100">{word.word}</div>
           </div>
           {word.example && (
-            <div className="mt-5 px-4 py-3 bg-blue-700/60 rounded-xl text-sm max-w-xs text-center">
+            <div className="px-4 py-3 bg-blue-700/60 rounded-xl text-sm max-w-xs text-center">
               <p className="text-white italic leading-snug">{word.example}</p>
               <p className="mt-1.5 text-blue-200 text-xs leading-snug">{word.example_zh}</p>
               <div className="mt-2 flex justify-center">
