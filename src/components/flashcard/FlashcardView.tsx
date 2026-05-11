@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useLocalStorageState } from '../../hooks/useLocalStorageState';
 import type { UseProgress } from '../../hooks/useProgress';
 import { getWordsByLevel } from '../../lib/data';
 import type { Level, WordWithLevel } from '../../types';
@@ -18,9 +19,15 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export function FlashcardView({ progress }: Props) {
-  const [level, setLevel] = useState<Level>('elementary');
-  const [hideKnown, setHideKnown] = useState(true);
-  const [order, setOrder] = useState<'sequential' | 'shuffled'>('shuffled');
+  const [level, setLevel] = useLocalStorageState<Level>('gept-flashcard-level', 'elementary');
+  const [hideKnown, setHideKnown] = useLocalStorageState<boolean>(
+    'gept-flashcard-hide-known',
+    true,
+  );
+  const [order, setOrder] = useLocalStorageState<'sequential' | 'shuffled'>(
+    'gept-flashcard-order',
+    'shuffled',
+  );
   const [index, setIndex] = useState(0);
 
   const baseWords = useMemo(() => getWordsByLevel(level), [level]);
