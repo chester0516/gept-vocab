@@ -46,25 +46,28 @@ export function HomeView({ progress, onNavigate }: Props) {
           {
             label: '已學會',
             value: knownCount,
-            color: 'text-emerald-600 dark:text-emerald-400',
+            card: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-900/60',
+            label_color: 'text-emerald-700 dark:text-emerald-300',
+            value_color: 'text-emerald-600 dark:text-emerald-300',
           },
           {
             label: '收藏',
             value: favCount,
-            color: 'text-amber-500 dark:text-amber-400',
+            card: 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900/60',
+            label_color: 'text-amber-700 dark:text-amber-300',
+            value_color: 'text-amber-600 dark:text-amber-300',
           },
           {
             label: '錯題',
             value: wrongCount,
-            color: 'text-rose-500 dark:text-rose-400',
+            card: 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/60',
+            label_color: 'text-rose-700 dark:text-rose-300',
+            value_color: 'text-rose-600 dark:text-rose-300',
           },
         ].map((s) => (
-          <div
-            key={s.label}
-            className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center"
-          >
-            <div className="text-xs text-slate-500 dark:text-slate-400">{s.label}</div>
-            <div className={`text-2xl font-bold mt-1 ${s.color}`}>{s.value}</div>
+          <div key={s.label} className={`rounded-xl border p-4 text-center ${s.card}`}>
+            <div className={`text-xs font-medium ${s.label_color}`}>{s.label}</div>
+            <div className={`text-3xl font-bold mt-1 tabular-nums ${s.value_color}`}>{s.value}</div>
           </div>
         ))}
       </div>
