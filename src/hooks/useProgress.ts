@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { ProgressState, QuizRecord } from '../types';
 import {
   addId,
   appendRecord,
@@ -9,6 +8,7 @@ import {
   saveProgress,
   toggleId,
 } from '../lib/progress';
+import type { ProgressState, QuizRecord } from '../types';
 
 export function useProgress() {
   const [state, setState] = useState<ProgressState>(() => loadProgress());

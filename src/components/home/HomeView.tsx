@@ -1,6 +1,6 @@
-import type { Level, View } from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { elementaryWords, intermediateWords } from '../../lib/data';
+import type { Level, View } from '../../types';
 import { ProgressBar } from '../shared/ProgressBar';
 import { BackupSection } from './BackupSection';
 
@@ -9,10 +9,7 @@ interface Props {
   onNavigate: (view: View) => void;
 }
 
-function countByLevel(
-  bag: Record<string, true>,
-  level: Level,
-): number {
+function countByLevel(bag: Record<string, true>, level: Level): number {
   const list = level === 'elementary' ? elementaryWords : intermediateWords;
   return list.reduce((acc, w) => (bag[w.id] ? acc + 1 : acc), 0);
 }
@@ -20,9 +17,7 @@ function countByLevel(
 function formatDate(ts: number): string {
   const d = new Date(ts);
   const pad = (n: number) => String(n).padStart(2, '0');
-  return `${d.getMonth() + 1}/${d.getDate()} ${pad(d.getHours())}:${pad(
-    d.getMinutes(),
-  )}`;
+  return `${d.getMonth() + 1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export function HomeView({ progress, onNavigate }: Props) {
@@ -68,12 +63,8 @@ export function HomeView({ progress, onNavigate }: Props) {
             key={s.label}
             className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center"
           >
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              {s.label}
-            </div>
-            <div className={`text-2xl font-bold mt-1 ${s.color}`}>
-              {s.value}
-            </div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">{s.label}</div>
+            <div className={`text-2xl font-bold mt-1 ${s.color}`}>{s.value}</div>
           </div>
         ))}
       </div>
@@ -86,6 +77,7 @@ export function HomeView({ progress, onNavigate }: Props) {
 
       <div className="grid sm:grid-cols-3 gap-3">
         <button
+          type="button"
           onClick={() => onNavigate('flashcard')}
           className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl px-4 py-5 text-left"
         >
@@ -93,6 +85,7 @@ export function HomeView({ progress, onNavigate }: Props) {
           <div className="text-sm text-blue-100 mt-1">翻牌記憶模式</div>
         </button>
         <button
+          type="button"
           onClick={() => onNavigate('quiz')}
           className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-5 hover:bg-slate-50 dark:hover:bg-slate-700 text-left"
         >
@@ -102,13 +95,12 @@ export function HomeView({ progress, onNavigate }: Props) {
           </div>
         </button>
         <button
+          type="button"
           onClick={() => onNavigate('library')}
           className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-5 hover:bg-slate-50 dark:hover:bg-slate-700 text-left"
         >
           <div className="text-lg font-semibold">單字列表</div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            查詢、收藏、標記
-          </div>
+          <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">查詢、收藏、標記</div>
         </button>
       </div>
 
@@ -118,17 +110,13 @@ export function HomeView({ progress, onNavigate }: Props) {
             最近測驗紀錄
           </div>
           <ul className="divide-y divide-slate-100 dark:divide-slate-700 text-sm">
-            {recent.map((r, i) => (
-              <li key={i} className="px-4 py-3 flex items-center gap-3">
+            {recent.map((r) => (
+              <li key={r.date} className="px-4 py-3 flex items-center gap-3">
                 <span className="text-slate-400 dark:text-slate-500 w-20">
                   {formatDate(r.date)}
                 </span>
                 <span className="text-slate-600 dark:text-slate-300">
-                  {r.level === 'elementary'
-                    ? '初級'
-                    : r.level === 'intermediate'
-                      ? '中級'
-                      : '混合'}
+                  {r.level === 'elementary' ? '初級' : r.level === 'intermediate' ? '中級' : '混合'}
                 </span>
                 <span className="ml-auto font-semibold text-blue-600 dark:text-blue-400">
                   {r.correct}/{r.total}
@@ -147,6 +135,7 @@ export function HomeView({ progress, onNavigate }: Props) {
       {(knownCount > 0 || favCount > 0 || wrongCount > 0 || recent.length > 0) && (
         <div className="text-center">
           <button
+            type="button"
             onClick={() => {
               if (confirm('確定要清除全部學習進度嗎？此動作無法復原。')) {
                 progress.resetAll();

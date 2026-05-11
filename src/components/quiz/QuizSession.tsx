@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { QuizAnswer, QuizQuestion } from '../../types';
 import { useSpeech } from '../../hooks/useSpeech';
+import type { QuizAnswer, QuizQuestion } from '../../types';
 import { SpeakerButton } from '../shared/SpeakerButton';
 
 interface Props {
@@ -61,6 +61,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
     <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center justify-between">
         <button
+          type="button"
           onClick={onCancel}
           className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
         >
@@ -91,16 +92,12 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
             <div className="text-3xl sm:text-4xl font-bold">{q.word.word}</div>
           )}
           {q.type === 'zh2en' && (
-            <div className="text-2xl sm:text-3xl font-semibold">
-              {q.word.zh}
-            </div>
+            <div className="text-2xl sm:text-3xl font-semibold">{q.word.zh}</div>
           )}
           {q.type === 'listen' && (
             <div className="flex flex-col items-center gap-3">
               <SpeakerButton text={q.word.word} size="lg" />
-              <div className="text-xs text-slate-400 dark:text-slate-500">
-                點擊喇叭再聽一次
-              </div>
+              <div className="text-xs text-slate-400 dark:text-slate-500">點擊喇叭再聽一次</div>
             </div>
           )}
         </div>
@@ -113,7 +110,8 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
             const showWrong = isSelected && !isAnswer;
             return (
               <button
-                key={i}
+                type="button"
+                key={opt}
                 onClick={() => submit(i)}
                 disabled={selected !== null}
                 className={`text-left px-4 py-3 rounded-lg border transition-colors ${
@@ -144,11 +142,10 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
                   : 'text-rose-600 dark:text-rose-400'
               }`}
             >
-              {isCorrect
-                ? '✓ 答對了'
-                : `✗ 正確答案：${q.options[q.answerIndex]}`}
+              {isCorrect ? '✓ 答對了' : `✗ 正確答案：${q.options[q.answerIndex]}`}
             </div>
             <button
+              type="button"
               onClick={next}
               className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white"
             >
@@ -159,7 +156,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
       </div>
 
       <div className="text-xs text-slate-400 dark:text-slate-500 text-center">
-        鍵盤: 1–4 選答  ·  Enter 下一題
+        鍵盤: 1–4 選答 · Enter 下一題
       </div>
     </div>
   );

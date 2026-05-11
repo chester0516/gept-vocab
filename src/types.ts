@@ -45,8 +45,4 @@ export interface ProgressState {
   history: QuizRecord[];
 }
 
-export type WordSource =
-  | 'all'
-  | 'favorites'
-  | 'wrong'
-  | 'excludeKnown';
+export type WordSource = 'all' | 'favorites' | 'wrong' | 'excludeKnown';

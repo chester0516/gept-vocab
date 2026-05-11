@@ -1,6 +1,6 @@
+import { useTheme } from '../hooks/useTheme';
 import type { View } from '../types';
 import { ThemeToggle } from './shared/ThemeToggle';
-import { useTheme } from '../hooks/useTheme';
 
 interface Props {
   view: View;
@@ -20,6 +20,7 @@ export function Header({ view, onNavigate }: Props) {
     <header className="sticky top-0 z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
       <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-2">
         <button
+          type="button"
           onClick={() => onNavigate('home')}
           className="font-bold text-lg text-slate-900 dark:text-slate-100 mr-auto"
         >
@@ -28,6 +29,7 @@ export function Header({ view, onNavigate }: Props) {
         <nav className="flex gap-1">
           {items.map((item) => (
             <button
+              type="button"
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={`px-3 py-1.5 rounded-md text-sm transition-colors ${

@@ -10,15 +10,10 @@ interface Props {
   onToggleFavorite: () => void;
 }
 
-export function Flashcard({
-  word,
-  isKnown,
-  isFavorite,
-  onToggleKnown,
-  onToggleFavorite,
-}: Props) {
+export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFavorite }: Props) {
   const [flipped, setFlipped] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset flip state when navigating to a different word
   useEffect(() => {
     setFlipped(false);
   }, [word.id]);
@@ -46,6 +41,7 @@ export function Flashcard({
         <div className="card-face absolute inset-0 bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center px-6 py-8">
           <div className="absolute top-4 right-4 flex gap-2">
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleFavorite();
@@ -70,6 +66,7 @@ export function Flashcard({
               </svg>
             </button>
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleKnown();
@@ -105,15 +102,10 @@ export function Flashcard({
             <div className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100 break-all">
               {word.word}
             </div>
-            <div className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-              {word.pos}
-            </div>
+            <div className="mt-3 text-sm text-slate-500 dark:text-slate-400">{word.pos}</div>
           </div>
 
-          <div
-            className="absolute bottom-4 right-4"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="absolute bottom-4 right-4" onClick={(e) => e.stopPropagation()}>
             <SpeakerButton text={word.word} size="md" />
           </div>
           <div className="absolute bottom-4 left-4 text-xs text-slate-400 dark:text-slate-500">
@@ -124,9 +116,7 @@ export function Flashcard({
         {/* Back */}
         <div className="card-face card-face-back absolute inset-0 bg-blue-600 text-white rounded-3xl shadow-xl flex flex-col items-center justify-center px-6 py-8">
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-semibold break-all">
-              {word.zh}
-            </div>
+            <div className="text-3xl sm:text-4xl font-semibold break-all">{word.zh}</div>
             <div className="mt-3 text-sm text-blue-100">{word.pos}</div>
             <div className="mt-6 text-base text-blue-100">{word.word}</div>
           </div>
@@ -139,9 +129,7 @@ export function Flashcard({
               </div>
             </div>
           )}
-          <div className="absolute bottom-4 left-4 text-xs text-blue-200">
-            再次點擊翻回正面
-          </div>
+          <div className="absolute bottom-4 left-4 text-xs text-blue-200">再次點擊翻回正面</div>
         </div>
       </div>
     </div>

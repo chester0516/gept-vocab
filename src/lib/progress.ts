@@ -35,10 +35,7 @@ export function saveProgress(state: ProgressState): void {
   }
 }
 
-export function toggleId(
-  bag: Record<string, true>,
-  id: string,
-): Record<string, true> {
+export function toggleId(bag: Record<string, true>, id: string): Record<string, true> {
   if (bag[id]) {
     const next = { ...bag };
     delete next[id];
@@ -47,28 +44,19 @@ export function toggleId(
   return { ...bag, [id]: true };
 }
 
-export function addId(
-  bag: Record<string, true>,
-  id: string,
-): Record<string, true> {
+export function addId(bag: Record<string, true>, id: string): Record<string, true> {
   if (bag[id]) return bag;
   return { ...bag, [id]: true };
 }
 
-export function removeId(
-  bag: Record<string, true>,
-  id: string,
-): Record<string, true> {
+export function removeId(bag: Record<string, true>, id: string): Record<string, true> {
   if (!bag[id]) return bag;
   const next = { ...bag };
   delete next[id];
   return next;
 }
 
-export function appendRecord(
-  history: QuizRecord[],
-  record: QuizRecord,
-): QuizRecord[] {
+export function appendRecord(history: QuizRecord[], record: QuizRecord): QuizRecord[] {
   return [record, ...history].slice(0, 30);
 }
 
@@ -108,14 +96,11 @@ export function parseImport(text: string): ProgressState {
   };
 }
 
-export function mergeProgress(
-  a: ProgressState,
-  b: ProgressState,
-): ProgressState {
-  const mergeBag = (
-    x: Record<string, true>,
-    y: Record<string, true>,
-  ): Record<string, true> => ({ ...x, ...y });
+export function mergeProgress(a: ProgressState, b: ProgressState): ProgressState {
+  const mergeBag = (x: Record<string, true>, y: Record<string, true>): Record<string, true> => ({
+    ...x,
+    ...y,
+  });
   const seen = new Set<string>();
   const dedupHistory = [...a.history, ...b.history]
     .sort((m, n) => n.date - m.date)

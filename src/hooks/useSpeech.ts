@@ -11,8 +11,7 @@ export function useSpeech() {
     synth.speak(utter);
   }, []);
 
-  const supported =
-    typeof window !== 'undefined' && 'speechSynthesis' in window;
+  const supported = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
   return { speak, supported };
 }
