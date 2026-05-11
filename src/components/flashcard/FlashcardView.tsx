@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Level, WordWithLevel } from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { getWordsByLevel } from '../../lib/data';
+import type { Level, WordWithLevel } from '../../types';
 import { Flashcard } from './Flashcard';
 
 interface Props {
@@ -36,6 +36,7 @@ export function FlashcardView({ progress }: Props) {
     return list;
   }, [baseWords, hideKnown, order, progress.state.knownIds]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset index when level/filter/order changes
   useEffect(() => {
     setIndex(0);
   }, [level, hideKnown, order]);
@@ -73,6 +74,7 @@ export function FlashcardView({ progress }: Props) {
         <div className="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
           {(['elementary', 'intermediate'] as Level[]).map((lv) => (
             <button
+              type="button"
               key={lv}
               onClick={() => setLevel(lv)}
               className={`px-4 py-1.5 text-sm rounded-md transition-colors ${
@@ -100,6 +102,7 @@ export function FlashcardView({ progress }: Props) {
 
       <div className="flex gap-2 justify-between">
         <button
+          type="button"
           onClick={() => setIndex((i) => Math.max(0, i - 1))}
           disabled={safeIndex === 0}
           className="px-4 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700"
@@ -107,6 +110,7 @@ export function FlashcardView({ progress }: Props) {
           ← 上一張
         </button>
         <button
+          type="button"
           onClick={() => setIndex((i) => Math.min(words.length - 1, i + 1))}
           disabled={safeIndex === words.length - 1}
           className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white disabled:opacity-40 disabled:cursor-not-allowed"
@@ -117,9 +121,8 @@ export function FlashcardView({ progress }: Props) {
 
       <div className="flex flex-wrap gap-3 items-center justify-between text-sm">
         <button
-          onClick={() =>
-            setOrder((o) => (o === 'sequential' ? 'shuffled' : 'sequential'))
-          }
+          type="button"
+          onClick={() => setOrder((o) => (o === 'sequential' ? 'shuffled' : 'sequential'))}
           className="px-3 py-1.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
         >
           {order === 'sequential' ? '🔀 隨機順序' : '🔢 字母順序'}
@@ -136,7 +139,7 @@ export function FlashcardView({ progress }: Props) {
       </div>
 
       <div className="text-xs text-slate-400 dark:text-slate-500 text-center">
-        鍵盤: ← / → 切換  ·  空白鍵 翻面
+        鍵盤: ← / → 切換 · 空白鍵 翻面
       </div>
     </div>
   );

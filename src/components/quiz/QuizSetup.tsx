@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { Level, QuizType, WordSource } from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { selectSourceWords } from '../../lib/quiz';
+import type { Level, QuizType, WordSource } from '../../types';
 
 interface Props {
   progress: UseProgress;
@@ -33,15 +33,10 @@ export function QuizSetup({ progress, onStart }: Props) {
   const [source, setSource] = useState<WordSource>('all');
 
   const toggleType = (id: QuizType) => {
-    setTypes((cur) =>
-      cur.includes(id) ? cur.filter((t) => t !== id) : [...cur, id],
-    );
+    setTypes((cur) => (cur.includes(id) ? cur.filter((t) => t !== id) : [...cur, id]));
   };
 
-  const available = selectSourceWords(
-    { level, types, count, source },
-    progress.state,
-  ).length;
+  const available = selectSourceWords({ level, types, count, source }, progress.state).length;
 
   const canStart = types.length > 0 && available > 0;
 
@@ -52,6 +47,7 @@ export function QuizSetup({ progress, onStart }: Props) {
         <div className="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
           {(['elementary', 'intermediate', 'mixed'] as const).map((lv) => (
             <button
+              type="button"
               key={lv}
               onClick={() => setLevel(lv)}
               className={`px-4 py-1.5 text-sm rounded-md ${
@@ -60,11 +56,7 @@ export function QuizSetup({ progress, onStart }: Props) {
                   : 'text-slate-600 dark:text-slate-300'
               }`}
             >
-              {lv === 'elementary'
-                ? '初級'
-                : lv === 'intermediate'
-                  ? '中級'
-                  : '混合'}
+              {lv === 'elementary' ? '初級' : lv === 'intermediate' ? '中級' : '混合'}
             </button>
           ))}
         </div>
@@ -77,6 +69,7 @@ export function QuizSetup({ progress, onStart }: Props) {
             const active = types.includes(t.id);
             return (
               <button
+                type="button"
                 key={t.id}
                 onClick={() => toggleType(t.id)}
                 className={`text-left px-4 py-3 rounded-lg border transition-colors ${
@@ -86,9 +79,7 @@ export function QuizSetup({ progress, onStart }: Props) {
                 }`}
               >
                 <div className="font-semibold">{t.label}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  {t.desc}
-                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{t.desc}</div>
               </button>
             );
           })}
@@ -100,6 +91,7 @@ export function QuizSetup({ progress, onStart }: Props) {
         <div className="flex flex-wrap gap-2">
           {sources.map((s) => (
             <button
+              type="button"
               key={s.id}
               onClick={() => setSource(s.id)}
               className={`px-3 py-1.5 rounded-full text-sm ${
@@ -122,6 +114,7 @@ export function QuizSetup({ progress, onStart }: Props) {
         <div className="flex flex-wrap gap-2">
           {[10, 20, 50].map((n) => (
             <button
+              type="button"
               key={n}
               onClick={() => setCount(n)}
               className={`px-4 py-1.5 rounded-full text-sm ${
@@ -137,15 +130,12 @@ export function QuizSetup({ progress, onStart }: Props) {
       </div>
 
       <button
+        type="button"
         disabled={!canStart}
         onClick={() => onStart({ level, types, count, source })}
         className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {canStart
-          ? '開始測驗'
-          : types.length === 0
-            ? '請至少選一種題型'
-            : '此範圍沒有單字'}
+        {canStart ? '開始測驗' : types.length === 0 ? '請至少選一種題型' : '此範圍沒有單字'}
       </button>
     </div>
   );

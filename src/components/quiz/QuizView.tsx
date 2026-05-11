@@ -1,16 +1,10 @@
 import { useState } from 'react';
-import type {
-  Level,
-  QuizAnswer,
-  QuizQuestion,
-  QuizType,
-  WordSource,
-} from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { buildQuiz } from '../../lib/quiz';
-import { QuizSetup } from './QuizSetup';
-import { QuizSession } from './QuizSession';
+import type { Level, QuizAnswer, QuizQuestion, QuizType, WordSource } from '../../types';
 import { QuizResult } from './QuizResult';
+import { QuizSession } from './QuizSession';
+import { QuizSetup } from './QuizSetup';
 
 type Stage =
   | { kind: 'setup' }

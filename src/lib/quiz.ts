@@ -1,17 +1,12 @@
 import type {
   Level,
+  ProgressState,
   QuizQuestion,
   QuizType,
-  WordWithLevel,
   WordSource,
-  ProgressState,
+  WordWithLevel,
 } from '../types';
-import {
-  allWords,
-  elementaryWords,
-  intermediateWords,
-  getWordsByLevel,
-} from './data';
+import { allWords, elementaryWords, getWordsByLevel, intermediateWords } from './data';
 
 function shuffle<T>(arr: T[]): T[] {
   const a = arr.slice();
@@ -84,10 +79,7 @@ export interface QuizConfig {
   source: WordSource;
 }
 
-export function selectSourceWords(
-  config: QuizConfig,
-  progress: ProgressState,
-): WordWithLevel[] {
+export function selectSourceWords(config: QuizConfig, progress: ProgressState): WordWithLevel[] {
   let pool: WordWithLevel[];
   if (config.level === 'mixed') pool = allWords;
   else pool = getWordsByLevel(config.level);
@@ -102,10 +94,7 @@ export function selectSourceWords(
   return pool;
 }
 
-export function buildQuiz(
-  config: QuizConfig,
-  progress: ProgressState,
-): QuizQuestion[] {
+export function buildQuiz(config: QuizConfig, progress: ProgressState): QuizQuestion[] {
   const sourcePool = selectSourceWords(config, progress);
   if (sourcePool.length === 0) return [];
 
@@ -119,10 +108,7 @@ export function buildQuiz(
 
   const types = config.types.length > 0 ? config.types : ['en2zh' as QuizType];
 
-  const picked = shuffle(sourcePool).slice(
-    0,
-    Math.min(config.count, sourcePool.length),
-  );
+  const picked = shuffle(sourcePool).slice(0, Math.min(config.count, sourcePool.length));
 
   return picked.map((word, i) => {
     const type = types[i % types.length];

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import type { Level, WordWithLevel } from '../../types';
 import type { UseProgress } from '../../hooks/useProgress';
 import { getWordsByLevel } from '../../lib/data';
+import type { Level, WordWithLevel } from '../../types';
 import { SpeakerButton } from '../shared/SpeakerButton';
 
 interface Props {
@@ -38,9 +38,7 @@ export function LibraryView({ progress }: Props) {
     }
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      list = list.filter(
-        (w) => w.word.toLowerCase().includes(q) || w.zh.includes(q),
-      );
+      list = list.filter((w) => w.word.toLowerCase().includes(q) || w.zh.includes(q));
     }
     return list;
   }, [baseWords, filter, query, progress.state]);
@@ -51,6 +49,7 @@ export function LibraryView({ progress }: Props) {
         <div className="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
           {(['elementary', 'intermediate'] as Level[]).map((lv) => (
             <button
+              type="button"
               key={lv}
               onClick={() => setLevel(lv)}
               className={`px-4 py-1.5 text-sm rounded-md transition-colors ${
@@ -75,6 +74,7 @@ export function LibraryView({ progress }: Props) {
       <div className="flex flex-wrap gap-2">
         {filters.map((f) => (
           <button
+            type="button"
             key={f.id}
             onClick={() => setFilter(f.id)}
             className={`px-3 py-1 rounded-full text-sm transition-colors ${
@@ -88,9 +88,7 @@ export function LibraryView({ progress }: Props) {
         ))}
       </div>
 
-      <div className="text-sm text-slate-600 dark:text-slate-400">
-        共 {filtered.length} 字
-      </div>
+      <div className="text-sm text-slate-600 dark:text-slate-400">共 {filtered.length} 字</div>
 
       <ul className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
         {filtered.length === 0 ? (
@@ -109,15 +107,12 @@ export function LibraryView({ progress }: Props) {
                   <span className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {w.word}
                   </span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
-                    {w.pos}
-                  </span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{w.pos}</span>
                 </div>
-                <div className="text-sm text-slate-600 dark:text-slate-300 truncate">
-                  {w.zh}
-                </div>
+                <div className="text-sm text-slate-600 dark:text-slate-300 truncate">{w.zh}</div>
               </div>
               <button
+                type="button"
                 onClick={() => progress.toggleFavorite(w.id)}
                 aria-label="收藏"
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
@@ -130,9 +125,7 @@ export function LibraryView({ progress }: Props) {
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
-                  fill={
-                    progress.state.favoriteIds[w.id] ? 'currentColor' : 'none'
-                  }
+                  fill={progress.state.favoriteIds[w.id] ? 'currentColor' : 'none'}
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinejoin="round"
@@ -141,6 +134,7 @@ export function LibraryView({ progress }: Props) {
                 </svg>
               </button>
               <button
+                type="button"
                 onClick={() => progress.toggleKnown(w.id)}
                 aria-label="已學會"
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${

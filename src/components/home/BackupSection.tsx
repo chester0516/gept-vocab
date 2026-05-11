@@ -87,18 +87,21 @@ export function BackupSection({ progress }: Props) {
       </div>
       <div className="grid sm:grid-cols-3 gap-2">
         <button
+          type="button"
           onClick={handleExport}
           className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-sm"
         >
           匯出備份
         </button>
         <button
+          type="button"
           onClick={() => triggerImport('merge')}
           className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
         >
           合併匯入
         </button>
         <button
+          type="button"
           onClick={() => triggerImport('replace')}
           className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
         >
@@ -111,9 +114,7 @@ export function BackupSection({ progress }: Props) {
         accept="application/json,.json"
         className="hidden"
         onChange={(e) => {
-          const mode =
-            (e.target.dataset.mode as 'replace' | 'merge' | undefined) ??
-            'merge';
+          const mode = (e.target.dataset.mode as 'replace' | 'merge' | undefined) ?? 'merge';
           handleImport(e, mode);
         }}
       />

@@ -7,17 +7,11 @@ interface Props {
   className?: string;
 }
 
-export function SpeakerButton({
-  text,
-  size = 'md',
-  variant = 'light',
-  className = '',
-}: Props) {
+export function SpeakerButton({ text, size = 'md', variant = 'light', className = '' }: Props) {
   const { speak, supported } = useSpeech();
   if (!supported) return null;
 
-  const sizeClass =
-    size === 'sm' ? 'w-7 h-7' : size === 'lg' ? 'w-12 h-12' : 'w-9 h-9';
+  const sizeClass = size === 'sm' ? 'w-7 h-7' : size === 'lg' ? 'w-12 h-12' : 'w-9 h-9';
   const iconSize = size === 'sm' ? 14 : size === 'lg' ? 24 : 18;
   const colorClass =
     variant === 'dark'
