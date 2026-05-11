@@ -20,6 +20,7 @@
   }
 
   .card-flip-inner {
+    display: grid;
     transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
@@ -29,6 +30,8 @@
   }
 
   .card-face {
+    grid-area: 1 / 1;
+    position: relative;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }

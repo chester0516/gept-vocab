@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocalStorageState } from '../../hooks/useLocalStorageState';
 import type { UseProgress } from '../../hooks/useProgress';
+import { SPEECH_RATE_DEFAULT, SPEECH_RATE_KEY } from '../../hooks/useSpeech';
 import { getWordsByLevel } from '../../lib/data';
 import type { Level, WordWithLevel } from '../../types';
 import { Flashcard } from './Flashcard';
@@ -18,6 +19,47 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+interface SettingRowProps<T> {
+  label: string;
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (next: T) => void;
+  isEqual?: (a: T, b: T) => boolean;
+}
+
+function SettingRow<T>({
+  label,
+  value,
+  options,
+  onChange,
+  isEqual = (a, b) => a === b,
+}: SettingRowProps<T>) {
+  return (
+    <div className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0">
+      <span className="text-slate-600 dark:text-slate-300 whitespace-nowrap">{label}</span>
+      <div className="inline-flex rounded-md bg-slate-100 dark:bg-slate-900/60 p-0.5">
+        {options.map((opt) => {
+          const active = isEqual(opt.value, value);
+          return (
+            <button
+              type="button"
+              key={String(opt.value)}
+              onClick={() => onChange(opt.value)}
+              className={`px-3 py-1 rounded transition-colors ${
+                active
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function FlashcardView({ progress }: Props) {
   const [level, setLevel] = useLocalStorageState<Level>('gept-flashcard-level', 'elementary');
   const [hideKnown, setHideKnown] = useLocalStorageState<boolean>(
@@ -27,6 +69,10 @@ export function FlashcardView({ progress }: Props) {
   const [order, setOrder] = useLocalStorageState<'sequential' | 'shuffled'>(
     'gept-flashcard-order',
     'shuffled',
+  );
+  const [speechRate, setSpeechRate] = useLocalStorageState<number>(
+    SPEECH_RATE_KEY,
+    SPEECH_RATE_DEFAULT,
   );
   const [index, setIndex] = useState(0);
 
@@ -99,14 +145,6 @@ export function FlashcardView({ progress }: Props) {
         </div>
       </div>
 
-      <Flashcard
-        word={word}
-        isKnown={!!progress.state.knownIds[word.id]}
-        isFavorite={!!progress.state.favoriteIds[word.id]}
-        onToggleKnown={() => progress.toggleKnown(word.id)}
-        onToggleFavorite={() => progress.toggleFavorite(word.id)}
-      />
-
       <div className="flex gap-2 justify-between">
         <button
           type="button"
@@ -126,27 +164,48 @@ export function FlashcardView({ progress }: Props) {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3 items-center justify-between text-sm">
-        <button
-          type="button"
-          onClick={() => setOrder((o) => (o === 'sequential' ? 'shuffled' : 'sequential'))}
-          className="px-3 py-1.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
-        >
-          {order === 'sequential' ? '🔀 隨機順序' : '🔢 字母順序'}
-        </button>
-        <label className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300">
-          <input
-            type="checkbox"
-            checked={hideKnown}
-            onChange={(e) => setHideKnown(e.target.checked)}
-            className="rounded"
-          />
-          隱藏已學會
-        </label>
-      </div>
+      <Flashcard
+        word={word}
+        isKnown={!!progress.state.knownIds[word.id]}
+        isFavorite={!!progress.state.favoriteIds[word.id]}
+        onToggleKnown={() => progress.toggleKnown(word.id)}
+        onToggleFavorite={() => progress.toggleFavorite(word.id)}
+      />
 
       <div className="text-xs text-slate-400 dark:text-slate-500 text-center">
         鍵盤: ← / → 切換 · 空白鍵 翻面
+      </div>
+
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-sm divide-y divide-slate-100 dark:divide-slate-700">
+        <SettingRow
+          label="順序"
+          value={order}
+          options={[
+            { value: 'sequential', label: '字母順序' },
+            { value: 'shuffled', label: '隨機順序' },
+          ]}
+          onChange={setOrder}
+        />
+        <SettingRow
+          label="顯示"
+          value={hideKnown}
+          options={[
+            { value: false, label: '全部' },
+            { value: true, label: '未學會' },
+          ]}
+          onChange={setHideKnown}
+        />
+        <SettingRow
+          label="語速"
+          value={speechRate}
+          options={[
+            { value: 0.7, label: '慢' },
+            { value: 0.9, label: '中' },
+            { value: 1.1, label: '快' },
+          ]}
+          onChange={setSpeechRate}
+          isEqual={(a, b) => Math.abs(a - b) < 0.01}
+        />
       </div>
     </div>
   );
