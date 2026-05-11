@@ -132,6 +132,9 @@ export function Flashcard({
             <div className="mt-5 px-4 py-3 bg-blue-700/60 rounded-xl text-sm max-w-xs text-center">
               <p className="text-white italic leading-snug">{word.example}</p>
               <p className="mt-1.5 text-blue-200 text-xs leading-snug">{word.example_zh}</p>
+              <div className="mt-2 flex justify-center">
+                <SpeakerButton text={word.example} size="sm" variant="dark" />
+              </div>
             </div>
           )}
           <div className="absolute bottom-4 left-4 text-xs text-blue-200">
