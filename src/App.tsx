@@ -14,7 +14,7 @@ export default function App() {
   return (
     <div className="min-h-full">
       <Header view={view} onNavigate={setView} />
-      <main className="pb-12">
+      <main className="pb-24 sm:pb-12">
         {view === 'home' && <HomeView progress={progress} onNavigate={setView} />}
         {view === 'flashcard' && <FlashcardView progress={progress} />}
         {view === 'quiz' && <QuizView progress={progress} onHome={() => setView('home')} />}
