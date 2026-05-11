@@ -1,0 +1,15 @@
+#!/bin/sh
+# Ensure a modern Node is available — system default may be too old.
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  . "$HOME/.nvm/nvm.sh" >/dev/null
+  nvm use --silent 20 2>/dev/null || true
+fi
+
+NODE_MAJOR=$(node -p "process.versions.node.split('.')[0]" 2>/dev/null || echo 0)
+if [ "$NODE_MAJOR" -lt 18 ]; then
+  echo "✗ Pre-commit hook requires Node 18+. Found $(node -v 2>/dev/null || echo 'no node')."
+  echo "  Run 'nvm use 20' or set a recent default: 'nvm alias default 20'."
+  exit 1
+fi
+
+exec npx lint-staged
