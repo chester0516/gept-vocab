@@ -19,8 +19,8 @@ function shuffle<T>(arr: T[]): T[] {
 
 export function FlashcardView({ progress }: Props) {
   const [level, setLevel] = useState<Level>('elementary');
-  const [hideKnown, setHideKnown] = useState(false);
-  const [order, setOrder] = useState<'sequential' | 'shuffled'>('sequential');
+  const [hideKnown, setHideKnown] = useState(true);
+  const [order, setOrder] = useState<'sequential' | 'shuffled'>('shuffled');
   const [index, setIndex] = useState(0);
 
   const baseWords = useMemo(() => getWordsByLevel(level), [level]);
