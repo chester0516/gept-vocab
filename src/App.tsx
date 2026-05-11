@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Footer } from './components/Footer';
 import { FlashcardView } from './components/flashcard/FlashcardView';
 import { Header } from './components/Header';
 import { HomeView } from './components/home/HomeView';
@@ -19,6 +20,7 @@ export default function App() {
         {view === 'flashcard' && <FlashcardView progress={progress} />}
         {view === 'quiz' && <QuizView progress={progress} onHome={() => setView('home')} />}
         {view === 'library' && <LibraryView progress={progress} />}
+        <Footer />
       </main>
     </div>
   );
