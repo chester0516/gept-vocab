@@ -7,3 +7,8 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 *.log
+
+# Playwright
+/playwright-report
+/test-results
+/playwright/.cache
