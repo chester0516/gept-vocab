@@ -96,11 +96,9 @@ export function Header({ view, onNavigate }: Props) {
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="mr-auto whitespace-nowrap font-serif text-xl text-ink tracking-tight"
+            className="mr-auto whitespace-nowrap text-xl text-ink tracking-tight"
           >
-            <span className="italic">GEPT</span>
-            <span className="ml-2 text-ink-soft">·</span>
-            <span className="ml-2">單字</span>
+            GEPT 單字
           </button>
           {/* Desktop / tablet inline nav */}
           <nav className="hidden sm:flex gap-1">

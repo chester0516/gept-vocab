@@ -80,7 +80,7 @@ export function BackupSection({ progress }: Props) {
   return (
     <div className="bg-surface border border-line rounded-md p-6 space-y-4">
       <div className="flex items-baseline justify-between">
-        <h2 className="font-serif text-lg text-ink">資料備份</h2>
+        <h2 className="font-bold text-lg text-ink">資料備份</h2>
         <span className="label-sc">Backup</span>
       </div>
       <p className="text-xs text-ink-soft leading-relaxed">

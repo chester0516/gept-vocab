@@ -74,7 +74,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
           ← 結束測驗
         </button>
         <div className="text-sm font-mono text-ink-soft">
-          第 <span className="text-ink">{index + 1}</span>
+          第 <span className="font-medium text-ink">{index + 1}</span>
           <span className="text-ink-mute"> / </span>
           {questions.length} 題
         </div>
@@ -91,12 +91,12 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
         <div className="label-sc">{prompt}</div>
         <div className="text-center py-4">
           {q.type === 'en2zh' && (
-            <div className="font-serif text-4xl sm:text-5xl text-ink tracking-tight">
+            <div className="font-bold text-4xl sm:text-5xl text-ink tracking-tight">
               {q.word.word}
             </div>
           )}
           {q.type === 'zh2en' && (
-            <div className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
+            <div className="font-bold text-3xl sm:text-4xl text-ink tracking-tight">
               {q.word.zh}
             </div>
           )}
@@ -132,7 +132,7 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
                 className={`${base} ${variant}`}
               >
                 <span className="font-mono text-xs text-ink-mute w-5 shrink-0">{i + 1}</span>
-                <span className="font-serif text-base">{opt}</span>
+                <span className="font-medium text-base">{opt}</span>
               </button>
             );
           })}

@@ -95,7 +95,7 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
           </div>
 
           <div className="text-center">
-            <div className="font-serif text-5xl sm:text-6xl text-ink tracking-tight break-all leading-[1.05]">
+            <div className="font-bold text-5xl sm:text-6xl text-ink tracking-tight break-all leading-[1.05]">
               {word.word}
             </div>
             <div className="mt-4 text-sm italic text-ink-soft">{word.pos}</div>
@@ -110,15 +110,17 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
         {/* Back — deep ink card with cream type */}
         <div className="card-face card-face-back bg-ink text-paper rounded-md border border-ink shadow-soft flex flex-col items-center justify-center gap-5 px-8 pt-12 pb-14">
           <div className="text-center">
-            <div className="font-serif text-4xl sm:text-5xl tracking-tight break-all leading-tight">
+            <div className="font-bold text-4xl sm:text-5xl tracking-tight break-all leading-tight">
               {word.zh}
             </div>
             <div className="mt-3 text-sm italic text-paper/60">{word.pos}</div>
-            <div className="mt-6 text-base text-paper/75 tracking-wide">{word.word}</div>
+            <div className="mt-6 text-base font-medium text-paper/75 tracking-wide">
+              {word.word}
+            </div>
           </div>
           {word.example && (
             <div className="px-5 py-4 border border-paper/15 bg-paper/5 rounded-md text-sm max-w-sm">
-              <p className="font-serif italic text-paper leading-relaxed">{word.example}</p>
+              <p className="italic text-paper leading-relaxed">{word.example}</p>
               <p className="mt-2 text-paper/65 text-xs leading-relaxed">{word.example_zh}</p>
               <div className="mt-3 flex justify-center">
                 <SpeakerButton text={word.example} size="sm" variant="dark" />

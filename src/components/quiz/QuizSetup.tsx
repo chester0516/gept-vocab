@@ -44,7 +44,7 @@ export function QuizSetup({ progress, onStart }: Props) {
     <div className="max-w-xl mx-auto px-5 py-8 space-y-8">
       <header className="space-y-2">
         <p className="label-sc">Quiz Setup</p>
-        <h1 className="font-serif text-3xl text-ink tracking-tight">測驗設定</h1>
+        <h1 className="font-bold text-3xl text-ink tracking-tight">測驗設定</h1>
       </header>
 
       <section>
@@ -83,7 +83,7 @@ export function QuizSetup({ progress, onStart }: Props) {
                     : 'bg-surface border-line hover:border-ink/30'
                 }`}
               >
-                <div className="font-serif text-base text-ink">{t.label}</div>
+                <div className="font-semibold text-base text-ink">{t.label}</div>
                 <div className="text-xs text-ink-soft mt-0.5">{t.desc}</div>
               </button>
             );
@@ -110,7 +110,7 @@ export function QuizSetup({ progress, onStart }: Props) {
           ))}
         </div>
         <div className="mt-3 text-xs text-ink-mute">
-          可用單字：<span className="font-mono text-ink-soft">{available}</span> 個
+          可用單字：<span className="font-mono font-medium text-ink-soft">{available}</span> 個
         </div>
       </section>
 

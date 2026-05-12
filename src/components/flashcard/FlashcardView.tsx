@@ -110,7 +110,7 @@ export function FlashcardView({ progress }: Props) {
 
   if (words.length === 0) {
     return (
-      <div className="max-w-xl mx-auto py-16 text-center text-ink-soft font-serif italic">
+      <div className="max-w-xl mx-auto py-16 text-center text-ink-soft italic">
         目前沒有可顯示的單字。
         <br />
         試試切換顯示為「全部」或換等級。

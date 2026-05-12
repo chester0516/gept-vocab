@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="max-w-3xl mx-auto px-5 mt-12 mb-4 text-center">
       <div className="mx-auto h-px w-16 bg-line mb-6" aria-hidden="true" />
-      <p className="font-serif italic text-[15px] text-ink-soft mb-4 leading-relaxed">
+      <p className="italic text-[15px] text-ink-soft mb-4 leading-relaxed">
         如果這個網站對你有幫助，
         <br className="sm:hidden" />
         歡迎贊助或來信回饋

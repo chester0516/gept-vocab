@@ -21,15 +21,17 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
     <div className="max-w-xl mx-auto px-5 py-8 space-y-8">
       <div className="bg-surface rounded-md border border-line p-8 text-center">
         <p className="label-sc">本次得分</p>
-        <div className="font-serif text-7xl text-ink tabular-nums mt-4 leading-none">
+        <div className="font-mono font-semibold text-7xl text-ink tabular-nums mt-4 leading-none">
           {pct}
-          <span className="text-3xl text-ink-mute ml-2 align-baseline">分</span>
+          <span className="font-sans font-normal text-3xl text-ink-mute ml-2 align-baseline">
+            分
+          </span>
         </div>
         <div className="mt-5 flex items-center justify-center gap-3 text-sm text-ink-soft">
           <span>
-            答對 <span className="font-serif text-ink tabular-nums">{correct}</span>
+            答對 <span className="font-mono font-medium text-ink tabular-nums">{correct}</span>
             <span className="text-ink-mute"> / </span>
-            <span className="tabular-nums">{total}</span>
+            <span className="font-mono tabular-nums">{total}</span>
           </span>
           <span className="text-ink-mute">·</span>
           <span>
@@ -45,7 +47,7 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
       {wrong.length > 0 && (
         <div className="bg-surface rounded-md border border-line overflow-hidden">
           <div className="px-5 py-4 border-b border-line flex items-baseline justify-between">
-            <h2 className="font-serif text-lg text-ink">錯題回顧</h2>
+            <h2 className="font-bold text-lg text-ink">錯題回顧</h2>
             <span className="label-sc">已加入錯題清單</span>
           </div>
           <ul className="divide-y divide-line">
@@ -53,7 +55,7 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
               <li key={a.question.word.id} className="px-5 py-3 flex items-center gap-3">
                 <SpeakerButton text={a.question.word.word} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-serif text-lg text-ink">{a.question.word.word}</div>
+                  <div className="font-semibold text-lg text-ink">{a.question.word.word}</div>
                   <div className="text-sm text-ink-soft truncate">{a.question.word.zh}</div>
                 </div>
                 <div className="label-sc">

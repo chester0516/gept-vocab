@@ -47,7 +47,7 @@ export function LibraryView({ progress }: Props) {
     <div className="max-w-3xl mx-auto px-5 py-8 space-y-5">
       <header className="space-y-2">
         <p className="label-sc">Vocabulary Library</p>
-        <h1 className="font-serif text-3xl text-ink tracking-tight">單字列表</h1>
+        <h1 className="font-bold text-3xl text-ink tracking-tight">單字列表</h1>
       </header>
 
       <div className="flex flex-wrap gap-2 justify-between items-center">
@@ -99,14 +99,14 @@ export function LibraryView({ progress }: Props) {
 
       <ul className="bg-surface border border-line rounded-md divide-y divide-line overflow-hidden">
         {filtered.length === 0 ? (
-          <li className="px-6 py-10 text-center text-ink-mute font-serif italic">沒有符合的單字</li>
+          <li className="px-6 py-10 text-center text-ink-mute italic">沒有符合的單字</li>
         ) : (
           filtered.map((w) => (
             <li key={w.id} className="flex items-center gap-3 px-5 py-3 hover:bg-paper/60">
               <SpeakerButton text={w.word} size="sm" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-serif text-lg text-ink truncate">{w.word}</span>
+                  <span className="font-semibold text-lg text-ink truncate">{w.word}</span>
                   <span className="text-xs italic text-ink-mute">{w.pos}</span>
                 </div>
                 <div className="text-sm text-ink-soft truncate">{w.zh}</div>

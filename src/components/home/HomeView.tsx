@@ -37,7 +37,7 @@ export function HomeView({ progress, onNavigate }: Props) {
       {/* Hero */}
       <header className="space-y-3">
         <p className="label-sc">A Quiet Place to Study</p>
-        <h1 className="font-serif text-4xl sm:text-5xl text-ink tracking-tight leading-[1.1]">
+        <h1 className="font-extrabold text-4xl sm:text-5xl text-ink tracking-tight leading-[1.1]">
           全民英檢單字
         </h1>
         <p className="text-ink-soft text-[15px] leading-relaxed">
@@ -56,7 +56,9 @@ export function HomeView({ progress, onNavigate }: Props) {
         ].map((s) => (
           <div key={s.label} className="bg-surface px-4 py-5 text-center">
             <div className="label-sc">{s.label}</div>
-            <div className={`font-serif text-[2.25rem] leading-none mt-2 tabular-nums ${s.color}`}>
+            <div
+              className={`font-mono font-medium text-[2.25rem] leading-none mt-2 tabular-nums ${s.color}`}
+            >
               {s.value}
             </div>
           </div>
@@ -66,7 +68,7 @@ export function HomeView({ progress, onNavigate }: Props) {
       {/* Progress card */}
       <section className="bg-surface border border-line rounded-md p-6 space-y-5">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-serif text-xl text-ink">學習進度</h2>
+          <h2 className="font-bold text-xl text-ink">學習進度</h2>
           <span className="label-sc">Progress</span>
         </div>
         <ProgressBar value={elemKnown} max={elemTotal} label="初級" />
@@ -101,9 +103,9 @@ export function HomeView({ progress, onNavigate }: Props) {
             onClick={() => onNavigate(a.id)}
             className="group w-full bg-surface hover:bg-paper px-6 py-5 flex items-center gap-5 text-left transition-colors"
           >
-            <span className="font-serif italic text-ink-mute text-lg w-6">{a.roman}</span>
+            <span className="italic font-bold text-ink-mute text-lg w-6">{a.roman}</span>
             <span className="flex-1">
-              <span className="block font-serif text-lg text-ink">{a.title}</span>
+              <span className="block font-semibold text-lg text-ink">{a.title}</span>
               <span className="block text-sm text-ink-soft mt-0.5">{a.caption}</span>
             </span>
             <span className="text-ink-mute group-hover:text-ink transition-colors" aria-hidden>
@@ -116,7 +118,7 @@ export function HomeView({ progress, onNavigate }: Props) {
       {recent.length > 0 && (
         <section className="bg-surface border border-line rounded-md overflow-hidden">
           <div className="px-6 py-4 border-b border-line flex items-baseline justify-between">
-            <h2 className="font-serif text-lg text-ink">最近測驗紀錄</h2>
+            <h2 className="font-bold text-lg text-ink">最近測驗紀錄</h2>
             <span className="label-sc">Recent</span>
           </div>
           <ul className="divide-y divide-line text-sm">
@@ -126,12 +128,12 @@ export function HomeView({ progress, onNavigate }: Props) {
                 <span className="text-ink-soft">
                   {r.level === 'elementary' ? '初級' : r.level === 'intermediate' ? '中級' : '混合'}
                 </span>
-                <span className="ml-auto font-serif tabular-nums text-ink">
+                <span className="ml-auto font-mono font-medium tabular-nums text-ink">
                   {r.correct}
                   <span className="text-ink-mute"> / </span>
                   {r.total}
                 </span>
-                <span className="text-ink-mute text-xs w-12 text-right tabular-nums">
+                <span className="text-ink-mute text-xs w-12 text-right font-mono tabular-nums">
                   {Math.round((r.correct / r.total) * 100)}%
                 </span>
               </li>

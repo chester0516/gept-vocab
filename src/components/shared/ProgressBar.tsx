@@ -11,7 +11,7 @@ export function ProgressBar({ value, max, label, className = '' }: Props) {
     <div className={className}>
       {label && (
         <div className="flex items-baseline justify-between mb-1.5">
-          <span className="font-serif text-base text-ink">{label}</span>
+          <span className="font-semibold text-base text-ink">{label}</span>
           <span className="text-xs font-mono text-ink-soft tabular-nums">
             {value} / {max}
             <span className="text-ink-mute"> · </span>

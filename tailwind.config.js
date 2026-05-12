@@ -5,16 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: [
-          'Newsreader',
-          'Noto Serif TC',
-          'ui-serif',
-          'Georgia',
-          '"Times New Roman"',
-          'serif',
-        ],
         sans: [
-          'Inter',
+          'Noto Sans',
           'Noto Sans TC',
           'system-ui',
           '-apple-system',
