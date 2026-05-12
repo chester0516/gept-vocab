@@ -180,7 +180,7 @@ type WordSource = 'all' | 'favorites' | 'wrong' | 'excludeKnown';
 
 | Key | 用途 |
 |---|---|
-| `gept-progress-v1` | 主進度（`ProgressState` 序列化） |
+| `gept-vocab-progress-v1` | 主進度（`ProgressState` 序列化） |
 | `gept-flashcard-level` | 預設等級 |
 | `gept-flashcard-hide-known` | 字卡是否隱藏已學會 |
 | `gept-flashcard-scope` | 字卡範圍（隨機 / 收藏 / 錯題） |
@@ -193,7 +193,7 @@ type WordSource = 'all' | 'favorites' | 'wrong' | 'excludeKnown';
 
 ## 10. 可訪問性 / Accessibility
 
-目標 **Lighthouse Accessibility ≥ 90**。具體做法：
+目標 **Lighthouse Accessibility ≥ 90**（尚未實測，僅為設計時自我約束）。具體做法：
 
 - 所有互動元素都是 `<button>` / `<a>`，鍵盤可達
 - 字卡上的 icon button 有 `aria-label`（星號 = `收藏`，勾號 = `已學會`）
