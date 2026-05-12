@@ -66,9 +66,9 @@ export function FlashcardView({ progress }: Props) {
     'gept-flashcard-hide-known',
     true,
   );
-  const [order, setOrder] = useLocalStorageState<'sequential' | 'shuffled'>(
-    'gept-flashcard-order',
-    'shuffled',
+  const [scope, setScope] = useLocalStorageState<'random' | 'favorites' | 'wrong'>(
+    'gept-flashcard-scope',
+    'random',
   );
   const [speechRate, setSpeechRate] = useLocalStorageState<number>(
     SPEECH_RATE_KEY,
@@ -80,19 +80,28 @@ export function FlashcardView({ progress }: Props) {
 
   const words = useMemo(() => {
     let list: WordWithLevel[] = baseWords;
+    if (scope === 'favorites') {
+      list = list.filter((w) => progress.state.favoriteIds[w.id]);
+    } else if (scope === 'wrong') {
+      list = list.filter((w) => progress.state.wrongIds[w.id]);
+    }
     if (hideKnown) {
       list = list.filter((w) => !progress.state.knownIds[w.id]);
     }
-    if (order === 'shuffled') {
-      list = shuffle(list);
-    }
-    return list;
-  }, [baseWords, hideKnown, order, progress.state.knownIds]);
+    return shuffle(list);
+  }, [
+    baseWords,
+    hideKnown,
+    scope,
+    progress.state.knownIds,
+    progress.state.favoriteIds,
+    progress.state.wrongIds,
+  ]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset index when level/filter/order changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset index when level/filter/scope changes
   useEffect(() => {
     setIndex(0);
-  }, [level, hideKnown, order]);
+  }, [level, hideKnown, scope]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -109,13 +118,13 @@ export function FlashcardView({ progress }: Props) {
   }, [words.length]);
 
   if (words.length === 0) {
-    return (
-      <div className="max-w-xl mx-auto py-16 text-center text-ink-soft italic">
-        目前沒有可顯示的單字。
-        <br />
-        試試切換顯示為「全部」或換等級。
-      </div>
-    );
+    const hint =
+      scope === 'favorites'
+        ? '目前沒有收藏的單字。點字卡上的星號加入收藏。'
+        : scope === 'wrong'
+          ? '目前沒有錯題單字。答錯的單字會自動加入這裡。'
+          : '目前沒有可顯示的單字。試試切換顯示為「全部」或換等級。';
+    return <div className="max-w-xl mx-auto py-16 text-center text-ink-soft italic">{hint}</div>;
   }
 
   const safeIndex = Math.min(index, words.length - 1);
@@ -179,12 +188,13 @@ export function FlashcardView({ progress }: Props) {
       <div className="bg-surface border border-line rounded-md p-5 text-sm divide-y divide-line">
         <SettingRow
           label="順序"
-          value={order}
+          value={scope}
           options={[
-            { value: 'sequential', label: '字母順序' },
-            { value: 'shuffled', label: '隨機順序' },
+            { value: 'random', label: '隨機' },
+            { value: 'favorites', label: '收藏' },
+            { value: 'wrong', label: '錯題' },
           ]}
-          onChange={setOrder}
+          onChange={setScope}
         />
         <SettingRow
           label="顯示"
