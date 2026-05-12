@@ -16,12 +16,12 @@ test.describe('Flashcard view', () => {
     await page.getByRole('button', { name: '字卡', exact: true }).click();
 
     // Front hint is visible before flipping
-    await expect(page.getByText('點擊翻面 / 空白鍵')).toBeVisible();
+    await expect(page.getByText('空白鍵 翻面', { exact: true })).toBeVisible();
 
     await page.keyboard.press('Space');
 
     // Back hint replaces front hint after the flip
-    await expect(page.getByText('再次點擊翻回正面')).toBeVisible();
+    await expect(page.getByText(/翻回正面/)).toBeVisible();
   });
 
   test('下一張 advances to the next word', async ({ page }) => {

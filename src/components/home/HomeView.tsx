@@ -33,104 +33,111 @@ export function HomeView({ progress, onNavigate }: Props) {
   const recent = progress.state.history.slice(0, 5);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold mb-1">全民英檢單字</h1>
-        <p className="text-sm text-slate-600 dark:text-slate-400">
-          GEPT 初級 ＋ 中級 · 共 {elemTotal + intTotal} 字
+    <div className="max-w-3xl mx-auto px-5 py-10 space-y-10">
+      {/* Hero */}
+      <header className="space-y-3">
+        <p className="label-sc">A Quiet Place to Study</p>
+        <h1 className="font-serif text-4xl sm:text-5xl text-ink tracking-tight leading-[1.1]">
+          全民英檢單字
+        </h1>
+        <p className="text-ink-soft text-[15px] leading-relaxed">
+          GEPT 初級 ＋ 中級，共
+          <span className="font-medium text-ink"> {elemTotal + intTotal} </span>
+          個字。專為長時間閱讀設計。
         </p>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-3 gap-3">
+      {/* Stats — three muted figures with serif numerals */}
+      <section className="grid grid-cols-3 gap-px bg-line rounded-md overflow-hidden border border-line">
         {[
-          {
-            label: '已學會',
-            value: knownCount,
-            card: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-900/60',
-            label_color: 'text-emerald-700 dark:text-emerald-300',
-            value_color: 'text-emerald-600 dark:text-emerald-300',
-          },
-          {
-            label: '收藏',
-            value: favCount,
-            card: 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900/60',
-            label_color: 'text-amber-700 dark:text-amber-300',
-            value_color: 'text-amber-600 dark:text-amber-300',
-          },
-          {
-            label: '錯題',
-            value: wrongCount,
-            card: 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/60',
-            label_color: 'text-rose-700 dark:text-rose-300',
-            value_color: 'text-rose-600 dark:text-rose-300',
-          },
+          { label: '已學會', value: knownCount, color: 'text-success' },
+          { label: '收藏', value: favCount, color: 'text-warn' },
+          { label: '錯題', value: wrongCount, color: 'text-danger' },
         ].map((s) => (
-          <div key={s.label} className={`rounded-xl border p-4 text-center ${s.card}`}>
-            <div className={`text-xs font-medium ${s.label_color}`}>{s.label}</div>
-            <div className={`text-3xl font-bold mt-1 tabular-nums ${s.value_color}`}>{s.value}</div>
+          <div key={s.label} className="bg-surface px-4 py-5 text-center">
+            <div className="label-sc">{s.label}</div>
+            <div className={`font-serif text-[2.25rem] leading-none mt-2 tabular-nums ${s.color}`}>
+              {s.value}
+            </div>
           </div>
         ))}
-      </div>
+      </section>
 
-      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 space-y-4">
-        <h2 className="font-semibold">學習進度</h2>
+      {/* Progress card */}
+      <section className="bg-surface border border-line rounded-md p-6 space-y-5">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-serif text-xl text-ink">學習進度</h2>
+          <span className="label-sc">Progress</span>
+        </div>
         <ProgressBar value={elemKnown} max={elemTotal} label="初級" />
         <ProgressBar value={intKnown} max={intTotal} label="中級" />
-      </div>
+      </section>
 
-      <div className="grid sm:grid-cols-3 gap-3">
-        <button
-          type="button"
-          onClick={() => onNavigate('flashcard')}
-          className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-xl px-4 py-5 text-left"
-        >
-          <div className="text-lg font-semibold">字卡學習</div>
-          <div className="text-sm text-blue-100 mt-1">翻牌記憶模式</div>
-        </button>
-        <button
-          type="button"
-          onClick={() => onNavigate('quiz')}
-          className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-5 hover:bg-slate-50 dark:hover:bg-slate-700 text-left"
-        >
-          <div className="text-lg font-semibold">測驗模式</div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            英選中 / 中選英 / 聽音
-          </div>
-        </button>
-        <button
-          type="button"
-          onClick={() => onNavigate('library')}
-          className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-5 hover:bg-slate-50 dark:hover:bg-slate-700 text-left"
-        >
-          <div className="text-lg font-semibold">單字列表</div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">查詢、收藏、標記</div>
-        </button>
-      </div>
+      {/* Actions — list-style entries with serif title + small caption */}
+      <section className="space-y-px bg-line border border-line rounded-md overflow-hidden">
+        {[
+          {
+            id: 'flashcard' as const,
+            title: '字卡學習',
+            caption: 'Flashcards · 翻牌記憶模式',
+            roman: 'I',
+          },
+          {
+            id: 'quiz' as const,
+            title: '測驗模式',
+            caption: 'Quiz · 英選中 / 中選英 / 聽音選詞',
+            roman: 'II',
+          },
+          {
+            id: 'library' as const,
+            title: '單字列表',
+            caption: 'Library · 查詢、收藏、標記',
+            roman: 'III',
+          },
+        ].map((a) => (
+          <button
+            key={a.id}
+            type="button"
+            onClick={() => onNavigate(a.id)}
+            className="group w-full bg-surface hover:bg-paper px-6 py-5 flex items-center gap-5 text-left transition-colors"
+          >
+            <span className="font-serif italic text-ink-mute text-lg w-6">{a.roman}</span>
+            <span className="flex-1">
+              <span className="block font-serif text-lg text-ink">{a.title}</span>
+              <span className="block text-sm text-ink-soft mt-0.5">{a.caption}</span>
+            </span>
+            <span className="text-ink-mute group-hover:text-ink transition-colors" aria-hidden>
+              →
+            </span>
+          </button>
+        ))}
+      </section>
 
       {recent.length > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 font-semibold">
-            最近測驗紀錄
+        <section className="bg-surface border border-line rounded-md overflow-hidden">
+          <div className="px-6 py-4 border-b border-line flex items-baseline justify-between">
+            <h2 className="font-serif text-lg text-ink">最近測驗紀錄</h2>
+            <span className="label-sc">Recent</span>
           </div>
-          <ul className="divide-y divide-slate-100 dark:divide-slate-700 text-sm">
+          <ul className="divide-y divide-line text-sm">
             {recent.map((r) => (
-              <li key={r.date} className="px-4 py-3 flex items-center gap-3">
-                <span className="text-slate-400 dark:text-slate-500 w-20">
-                  {formatDate(r.date)}
-                </span>
-                <span className="text-slate-600 dark:text-slate-300">
+              <li key={r.date} className="px-6 py-3 flex items-center gap-3">
+                <span className="text-ink-mute font-mono text-xs w-20">{formatDate(r.date)}</span>
+                <span className="text-ink-soft">
                   {r.level === 'elementary' ? '初級' : r.level === 'intermediate' ? '中級' : '混合'}
                 </span>
-                <span className="ml-auto font-semibold text-blue-600 dark:text-blue-400">
-                  {r.correct}/{r.total}
+                <span className="ml-auto font-serif tabular-nums text-ink">
+                  {r.correct}
+                  <span className="text-ink-mute"> / </span>
+                  {r.total}
                 </span>
-                <span className="text-slate-400 dark:text-slate-500 text-xs w-12 text-right">
+                <span className="text-ink-mute text-xs w-12 text-right tabular-nums">
                   {Math.round((r.correct / r.total) * 100)}%
                 </span>
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       )}
 
       <BackupSection progress={progress} />
@@ -144,7 +151,7 @@ export function HomeView({ progress, onNavigate }: Props) {
                 progress.resetAll();
               }
             }}
-            className="text-sm text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 underline underline-offset-2"
+            className="text-xs text-ink-mute hover:text-danger underline underline-offset-4 decoration-line hover:decoration-danger"
           >
             清除所有學習進度
           </button>

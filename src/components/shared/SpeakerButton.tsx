@@ -15,8 +15,8 @@ export function SpeakerButton({ text, size = 'md', variant = 'light', className 
   const iconSize = size === 'sm' ? 14 : size === 'lg' ? 24 : 18;
   const colorClass =
     variant === 'dark'
-      ? 'bg-white/15 hover:bg-white/25 active:bg-white/35 text-white'
-      : 'bg-blue-50 hover:bg-blue-100 active:bg-blue-200 text-blue-700 dark:bg-blue-900/40 dark:hover:bg-blue-900/60 dark:active:bg-blue-900/80 dark:text-blue-300';
+      ? 'bg-paper/10 hover:bg-paper/20 active:bg-paper/30 text-paper'
+      : 'bg-accent-soft hover:bg-accent/15 active:bg-accent/25 text-accent';
 
   return (
     <button
