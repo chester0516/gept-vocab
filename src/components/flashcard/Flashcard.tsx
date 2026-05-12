@@ -101,7 +101,6 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
             <div className="mt-4 text-sm italic text-ink-soft">{word.pos}</div>
           </div>
 
-          {/* biome-ignore lint/a11y/useKeyWithClickEvents: speaker handles its own focus */}
           <div className="absolute bottom-4 right-4" onClick={(e) => e.stopPropagation()}>
             <SpeakerButton text={word.word} size="md" />
           </div>
