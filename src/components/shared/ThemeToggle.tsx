@@ -13,7 +13,7 @@ export function ThemeToggle({ theme, onToggle }: Props) {
       onClick={onToggle}
       aria-label={isDark ? '切換為淺色模式' : '切換為深色模式'}
       title={isDark ? '切換為淺色模式' : '切換為深色模式'}
-      className="w-9 h-9 rounded-md flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
+      className="w-9 h-9 rounded-md flex items-center justify-center text-ink-soft hover:text-ink hover:bg-paper transition-colors"
     >
       {isDark ? (
         <svg

@@ -18,32 +18,47 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
   const ss = seconds % 60;
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 text-center">
-        <div className="text-sm text-slate-500 dark:text-slate-400">本次得分</div>
-        <div className="text-5xl font-bold text-blue-600 dark:text-blue-400 mt-2">{pct} 分</div>
-        <div className="text-sm text-slate-600 dark:text-slate-300 mt-2">
-          答對 {correct} / {total} · 用時 {mm > 0 ? `${mm} 分 ` : ''}
-          {ss} 秒
+    <div className="max-w-xl mx-auto px-5 py-8 space-y-8">
+      <div className="bg-surface rounded-md border border-line p-8 text-center">
+        <p className="label-sc">本次得分</p>
+        <div className="font-mono font-semibold text-7xl text-ink tabular-nums mt-4 leading-none">
+          {pct}
+          <span className="font-sans font-normal text-3xl text-ink-mute ml-2 align-baseline">
+            分
+          </span>
+        </div>
+        <div className="mt-5 flex items-center justify-center gap-3 text-sm text-ink-soft">
+          <span>
+            答對 <span className="font-mono font-medium text-ink tabular-nums">{correct}</span>
+            <span className="text-ink-mute"> / </span>
+            <span className="font-mono tabular-nums">{total}</span>
+          </span>
+          <span className="text-ink-mute">·</span>
+          <span>
+            用時{' '}
+            <span className="font-mono text-ink">
+              {mm > 0 ? `${mm}'` : ''}
+              {String(ss).padStart(2, '0')}"
+            </span>
+          </span>
         </div>
       </div>
 
       {wrong.length > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 font-semibold">
-            錯題回顧（已加入錯題清單）
+        <div className="bg-surface rounded-md border border-line overflow-hidden">
+          <div className="px-5 py-4 border-b border-line flex items-baseline justify-between">
+            <h2 className="font-bold text-lg text-ink">錯題回顧</h2>
+            <span className="label-sc">已加入錯題清單</span>
           </div>
-          <ul className="divide-y divide-slate-100 dark:divide-slate-700">
+          <ul className="divide-y divide-line">
             {wrong.map((a) => (
-              <li key={a.question.word.id} className="px-4 py-3 flex items-center gap-3">
+              <li key={a.question.word.id} className="px-5 py-3 flex items-center gap-3">
                 <SpeakerButton text={a.question.word.word} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold">{a.question.word.word}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-300 truncate">
-                    {a.question.word.zh}
-                  </div>
+                  <div className="font-semibold text-lg text-ink">{a.question.word.word}</div>
+                  <div className="text-sm text-ink-soft truncate">{a.question.word.zh}</div>
                 </div>
-                <div className="text-xs text-slate-400 dark:text-slate-500">
+                <div className="label-sc">
                   {a.question.word.level === 'elementary' ? '初級' : '中級'}
                 </div>
               </li>
@@ -56,14 +71,14 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
         <button
           type="button"
           onClick={onHome}
-          className="flex-1 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
+          className="flex-1 py-3 rounded-md bg-surface border border-line text-ink hover:border-ink/30 transition-colors"
         >
           回到首頁
         </button>
         <button
           type="button"
           onClick={onRestart}
-          className="flex-1 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white"
+          className="flex-1 py-3 rounded-md bg-ink hover:bg-ink/90 text-paper font-medium transition-colors"
         >
           再來一輪
         </button>

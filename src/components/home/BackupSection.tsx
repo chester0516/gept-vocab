@@ -78,32 +78,33 @@ export function BackupSection({ progress }: Props) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 space-y-3">
-      <div>
-        <h2 className="font-semibold">資料備份</h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          進度存在瀏覽器本地。換瀏覽器或裝置時可用此匯出再匯入。
-        </p>
+    <div className="bg-surface border border-line rounded-md p-6 space-y-4">
+      <div className="flex items-baseline justify-between">
+        <h2 className="font-bold text-lg text-ink">資料備份</h2>
+        <span className="label-sc">Backup</span>
       </div>
+      <p className="text-xs text-ink-soft leading-relaxed">
+        進度存在瀏覽器本地。換瀏覽器或裝置時可用此匯出再匯入。
+      </p>
       <div className="grid sm:grid-cols-3 gap-2">
         <button
           type="button"
           onClick={handleExport}
-          className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-sm"
+          className="px-3 py-2 rounded-md bg-ink hover:bg-ink/90 text-paper text-sm font-medium transition-colors"
         >
           匯出備份
         </button>
         <button
           type="button"
           onClick={() => triggerImport('merge')}
-          className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
+          className="px-3 py-2 rounded-md bg-surface border border-line hover:border-ink/30 text-ink text-sm transition-colors"
         >
           合併匯入
         </button>
         <button
           type="button"
           onClick={() => triggerImport('replace')}
-          className="px-3 py-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-600"
+          className="px-3 py-2 rounded-md bg-surface border border-line hover:border-ink/30 text-ink text-sm transition-colors"
         >
           覆蓋匯入
         </button>
@@ -119,13 +120,7 @@ export function BackupSection({ progress }: Props) {
         }}
       />
       {message && (
-        <div
-          className={`text-sm ${
-            message.kind === 'ok'
-              ? 'text-emerald-600 dark:text-emerald-400'
-              : 'text-rose-600 dark:text-rose-400'
-          }`}
-        >
+        <div className={`text-sm ${message.kind === 'ok' ? 'text-success' : 'text-danger'}`}>
           {message.text}
         </div>
       )}

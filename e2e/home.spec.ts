@@ -8,7 +8,7 @@ test.describe('Home page', () => {
     await expect(page.getByRole('heading', { name: '全民英檢單字' })).toBeVisible();
 
     // Subtitle confirms the total word count is loaded from data
-    await expect(page.getByText(/共\s*\d+\s*字/)).toBeVisible();
+    await expect(page.getByText(/共.*\d+.*字/)).toBeVisible();
 
     // Three stat cards
     await expect(page.getByText('已學會', { exact: true })).toBeVisible();

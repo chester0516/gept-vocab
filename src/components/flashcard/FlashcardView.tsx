@@ -35,9 +35,9 @@ function SettingRow<T>({
   isEqual = (a, b) => a === b,
 }: SettingRowProps<T>) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0">
-      <span className="text-slate-600 dark:text-slate-300 whitespace-nowrap">{label}</span>
-      <div className="inline-flex rounded-md bg-slate-100 dark:bg-slate-900/60 p-0.5">
+    <div className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+      <span className="label-sc whitespace-nowrap">{label}</span>
+      <div className="inline-flex rounded-md border border-line p-0.5 bg-paper/60">
         {options.map((opt) => {
           const active = isEqual(opt.value, value);
           return (
@@ -45,10 +45,10 @@ function SettingRow<T>({
               type="button"
               key={String(opt.value)}
               onClick={() => onChange(opt.value)}
-              className={`px-3 py-1 rounded transition-colors ${
+              className={`px-3 py-1 rounded text-sm transition-colors ${
                 active
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-surface text-ink shadow-sm font-medium'
+                  : 'text-ink-soft hover:text-ink'
               }`}
             >
               {opt.label}
@@ -110,10 +110,10 @@ export function FlashcardView({ progress }: Props) {
 
   if (words.length === 0) {
     return (
-      <div className="max-w-xl mx-auto py-12 text-center text-slate-500 dark:text-slate-400">
+      <div className="max-w-xl mx-auto py-16 text-center text-ink-soft italic">
         目前沒有可顯示的單字。
         <br />
-        試試取消「隱藏已學會」或切換等級。
+        試試切換顯示為「全部」或換等級。
       </div>
     );
   }
@@ -122,26 +122,26 @@ export function FlashcardView({ progress }: Props) {
   const word = words[safeIndex];
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6 space-y-6">
+    <div className="max-w-xl mx-auto px-5 py-8 space-y-6">
       <div className="flex flex-wrap gap-2 justify-between items-center">
-        <div className="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
+        <div className="inline-flex rounded-md border border-line p-0.5 bg-paper/60">
           {(['elementary', 'intermediate'] as Level[]).map((lv) => (
             <button
               type="button"
               key={lv}
               onClick={() => setLevel(lv)}
-              className={`px-4 py-1.5 text-sm rounded-md transition-colors ${
+              className={`px-4 py-1.5 text-sm rounded transition-colors ${
                 level === lv
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-surface text-ink shadow-sm font-medium'
+                  : 'text-ink-soft hover:text-ink'
               }`}
             >
               {lv === 'elementary' ? '初級' : '中級'}
             </button>
           ))}
         </div>
-        <div className="text-sm text-slate-600 dark:text-slate-400">
-          {safeIndex + 1} / {words.length}
+        <div className="text-sm text-ink-soft tabular-nums font-mono">
+          {safeIndex + 1} <span className="text-ink-mute">/</span> {words.length}
         </div>
       </div>
 
@@ -150,7 +150,7 @@ export function FlashcardView({ progress }: Props) {
           type="button"
           onClick={() => setIndex((i) => Math.max(0, i - 1))}
           disabled={safeIndex === 0}
-          className="px-4 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700"
+          className="px-4 py-2 rounded-md bg-surface border border-line text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:border-ink/30 transition-colors"
         >
           ← 上一張
         </button>
@@ -158,7 +158,7 @@ export function FlashcardView({ progress }: Props) {
           type="button"
           onClick={() => setIndex((i) => Math.min(words.length - 1, i + 1))}
           disabled={safeIndex === words.length - 1}
-          className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white disabled:opacity-40 disabled:cursor-not-allowed"
+          className="px-5 py-2 rounded-md bg-ink hover:bg-ink/90 text-paper font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           下一張 →
         </button>
@@ -172,11 +172,11 @@ export function FlashcardView({ progress }: Props) {
         onToggleFavorite={() => progress.toggleFavorite(word.id)}
       />
 
-      <div className="text-xs text-slate-400 dark:text-slate-500 text-center">
-        鍵盤: ← / → 切換 · 空白鍵 翻面
+      <div className="text-[11px] text-ink-mute text-center tracking-wide">
+        鍵盤 ← / → 切換 · 空白鍵 翻面
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-sm divide-y divide-slate-100 dark:divide-slate-700">
+      <div className="bg-surface border border-line rounded-md p-5 text-sm divide-y divide-line">
         <SettingRow
           label="順序"
           value={order}

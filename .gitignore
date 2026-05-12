@@ -12,3 +12,6 @@ dist-ssr
 /playwright-report
 /test-results
 /playwright/.cache
+
+# Claude Code local settings (per-user)
+.claude/settings.local.json

@@ -10,17 +10,19 @@ export function ProgressBar({ value, max, label, className = '' }: Props) {
   return (
     <div className={className}>
       {label && (
-        <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
-          <span>{label}</span>
-          <span>
-            {value} / {max} ({pct}%)
+        <div className="flex items-baseline justify-between mb-1.5">
+          <span className="font-semibold text-base text-ink">{label}</span>
+          <span className="text-xs font-mono text-ink-soft tabular-nums">
+            {value} / {max}
+            <span className="text-ink-mute"> · </span>
+            {pct}%
           </span>
         </div>
       )}
-      <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+      <div className="h-px bg-line relative overflow-hidden">
         <div
-          className="h-full bg-blue-600 dark:bg-blue-500 transition-all duration-300"
-          style={{ width: `${pct}%` }}
+          className="absolute inset-y-0 left-0 bg-accent transition-all duration-500"
+          style={{ width: `${pct}%`, height: '2px', top: '-0.5px' }}
         />
       </div>
     </div>

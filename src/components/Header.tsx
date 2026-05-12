@@ -91,12 +91,12 @@ export function Header({ view, onNavigate }: Props) {
   const { theme, toggle } = useTheme();
   return (
     <>
-      <header className="sticky top-0 z-20 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-2">
+      <header className="sticky top-0 z-20 bg-paper/85 backdrop-blur border-b border-line">
+        <div className="max-w-3xl mx-auto px-5 h-16 flex items-center gap-2">
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="font-bold text-lg text-slate-900 dark:text-slate-100 mr-auto whitespace-nowrap"
+            className="mr-auto whitespace-nowrap text-xl text-ink tracking-tight"
           >
             GEPT 單字
           </button>
@@ -107,13 +107,14 @@ export function Header({ view, onNavigate }: Props) {
                 type="button"
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`px-3 py-1.5 rounded-md text-sm whitespace-nowrap transition-colors ${
-                  view === item.id
-                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800'
+                className={`relative px-3 py-1.5 text-sm whitespace-nowrap transition-colors ${
+                  view === item.id ? 'text-ink font-medium' : 'text-ink-soft hover:text-ink'
                 }`}
               >
                 {item.label}
+                {view === item.id && (
+                  <span className="absolute inset-x-3 -bottom-[17px] h-px bg-accent" />
+                )}
               </button>
             ))}
           </nav>
@@ -123,7 +124,7 @@ export function Header({ view, onNavigate }: Props) {
 
       {/* Mobile bottom tab bar */}
       <nav
-        className="sm:hidden fixed bottom-0 inset-x-0 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200 dark:border-slate-800 pb-[env(safe-area-inset-bottom)]"
+        className="sm:hidden fixed bottom-0 inset-x-0 z-20 bg-paper/95 backdrop-blur border-t border-line pb-[env(safe-area-inset-bottom)]"
         aria-label="主要導覽"
       >
         <div className="grid grid-cols-4 max-w-3xl mx-auto">
@@ -135,14 +136,12 @@ export function Header({ view, onNavigate }: Props) {
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
                 aria-current={active ? 'page' : undefined}
-                className={`flex flex-col items-center gap-0.5 py-2 transition-colors ${
-                  active
-                    ? 'text-blue-600 dark:text-blue-400'
-                    : 'text-slate-500 dark:text-slate-400 active:text-slate-900 dark:active:text-white'
+                className={`flex flex-col items-center gap-0.5 py-2.5 transition-colors ${
+                  active ? 'text-accent' : 'text-ink-mute active:text-ink'
                 }`}
               >
                 {item.icon}
-                <span className="text-xs">{item.label}</span>
+                <span className="text-[11px] font-medium">{item.label}</span>
               </button>
             );
           })}

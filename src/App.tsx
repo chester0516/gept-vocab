@@ -16,10 +16,12 @@ export default function App() {
     <div className="min-h-full">
       <Header view={view} onNavigate={setView} />
       <main className="pb-24 sm:pb-12">
-        {view === 'home' && <HomeView progress={progress} onNavigate={setView} />}
-        {view === 'flashcard' && <FlashcardView progress={progress} />}
-        {view === 'quiz' && <QuizView progress={progress} onHome={() => setView('home')} />}
-        {view === 'library' && <LibraryView progress={progress} />}
+        <div key={view} className="animate-view-fade">
+          {view === 'home' && <HomeView progress={progress} onNavigate={setView} />}
+          {view === 'flashcard' && <FlashcardView progress={progress} />}
+          {view === 'quiz' && <QuizView progress={progress} onHome={() => setView('home')} />}
+          {view === 'library' && <LibraryView progress={progress} />}
+        </div>
         <Footer />
       </main>
     </div>
