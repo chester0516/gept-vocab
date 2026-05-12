@@ -24,3 +24,5 @@ jobs:
         run: npx biome ci
       - name: TypeScript
         run: npx tsc --noEmit
+      - name: Vitest
+        run: npm test
