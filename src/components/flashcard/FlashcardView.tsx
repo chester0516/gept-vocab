@@ -102,16 +102,14 @@ export function FlashcardView({ progress }: Props) {
   // 穩定洗牌順序：只在 level 切換（baseWords 變動）時才重洗。
   // 切 scope / hideKnown 走的是 filtered 過濾，洗牌順序保持不變 →
   // 使用者按星號或「已學會」時眼前的卡不會瞬移成另一張。
-  const [shuffledIds, setShuffledIds] = useState<string[]>(() =>
-    shuffle(baseWords.map((w) => w.id)),
-  );
+  // 用 useMemo 而非 useState+useEffect：同步、無 mount 時的 double-shuffle、
+  // 無 level 切換時 stale shuffledIds × new baseWords 的單 frame race。
+  const shuffledIds = useMemo(() => shuffle(baseWords.map((w) => w.id)), [baseWords]);
 
-  useEffect(() => {
-    setShuffledIds(shuffle(baseWords.map((w) => w.id)));
-  }, [baseWords]);
-
-  // 切到不同的範圍 / 顯示 / 等級時，從第一張開始
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally re-run on these triggers
+  // 切到不同的範圍 / 顯示 / 等級時，從第一張開始。
+  // setIndex 是 stable callback；下方三項是唯一合理的 reset triggers，
+  // 別加 setIndex（lint 的多餘建議）、別移除任何一項（會破壞 reset 行為）。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: setIndex stable; deps are intentional reset triggers
   useEffect(() => {
     setIndex(0);
   }, [level, hideKnown, scope]);
@@ -128,7 +126,11 @@ export function FlashcardView({ progress }: Props) {
 
   // 清掉 PR #13 之前留下的舊 localStorage key（純衛生，無功能依賴）
   useEffect(() => {
-    localStorage.removeItem('gept-flashcard-order');
+    // One-time cleanup of the pre-PR-#13 localStorage key. Guard avoids a no-op
+    // write on every navigation to 字卡 once the key is already gone.
+    if (localStorage.getItem('gept-flashcard-order') !== null) {
+      localStorage.removeItem('gept-flashcard-order');
+    }
   }, []);
 
   useEffect(() => {

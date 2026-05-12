@@ -95,7 +95,10 @@ export function Flashcard({ word, isKnown, isFavorite, onToggleKnown, onToggleFa
           </div>
 
           <div className="text-center">
-            <div className="font-bold text-5xl sm:text-6xl text-ink tracking-tight break-all leading-[1.05]">
+            <div
+              data-testid="flashcard-headword"
+              className="font-bold text-5xl sm:text-6xl text-ink tracking-tight break-all leading-[1.05]"
+            >
               {word.word}
             </div>
             <div className="mt-4 text-sm italic text-ink-soft">{word.pos}</div>
