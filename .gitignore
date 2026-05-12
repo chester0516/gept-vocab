@@ -13,5 +13,6 @@ dist-ssr
 /test-results
 /playwright/.cache
 
-# Claude Code local settings (per-user)
+# Claude Code local files (per-user)
 .claude/settings.local.json
+.claude/scheduled_tasks.lock
