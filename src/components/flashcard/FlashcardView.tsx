@@ -78,7 +78,8 @@ export function FlashcardView({ progress }: Props) {
 
   const baseWords = useMemo(() => getWordsByLevel(level), [level]);
 
-  const words = useMemo(() => {
+  // 反應所有 progress 變動，產生當前可見的單字集合
+  const filtered = useMemo(() => {
     let list: WordWithLevel[] = baseWords;
     if (scope === 'favorites') {
       list = list.filter((w) => progress.state.favoriteIds[w.id]);
@@ -88,23 +89,51 @@ export function FlashcardView({ progress }: Props) {
     if (hideKnown) {
       list = list.filter((w) => !progress.state.knownIds[w.id]);
     }
-    return shuffle(list);
+    return list;
   }, [
     baseWords,
-    hideKnown,
     scope,
+    hideKnown,
     progress.state.knownIds,
     progress.state.favoriteIds,
     progress.state.wrongIds,
   ]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset index when level/filter/scope changes
+  // 穩定洗牌順序：只在 level 切換（baseWords 變動）時才重洗。
+  // 切 scope / hideKnown 走的是 filtered 過濾，洗牌順序保持不變 →
+  // 使用者按星號或「已學會」時眼前的卡不會瞬移成另一張。
+  const [shuffledIds, setShuffledIds] = useState<string[]>(() =>
+    shuffle(baseWords.map((w) => w.id)),
+  );
+
+  useEffect(() => {
+    setShuffledIds(shuffle(baseWords.map((w) => w.id)));
+  }, [baseWords]);
+
+  // 切到不同的範圍 / 顯示 / 等級時，從第一張開始
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally re-run on these triggers
   useEffect(() => {
     setIndex(0);
   }, [level, hideKnown, scope]);
 
+  // 可見單字 = 穩定洗牌順序 ∩ 當前過濾結果
+  const words = useMemo(() => {
+    const filterSet = new Set(filtered.map((w) => w.id));
+    const byId = new Map(filtered.map((w) => [w.id, w] as const));
+    return shuffledIds
+      .filter((id) => filterSet.has(id))
+      .map((id) => byId.get(id))
+      .filter((w): w is WordWithLevel => w != null);
+  }, [shuffledIds, filtered]);
+
+  // 清掉 PR #13 之前留下的舊 localStorage key（純衛生，無功能依賴）
+  useEffect(() => {
+    localStorage.removeItem('gept-flashcard-order');
+  }, []);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      if (words.length === 0) return;
       if (e.code === 'ArrowRight') {
         e.preventDefault();
         setIndex((i) => Math.min(words.length - 1, i + 1));
@@ -152,7 +181,11 @@ export function FlashcardView({ progress }: Props) {
       </div>
 
       {isEmpty ? (
-        <div className="bg-surface border border-line border-dashed rounded-md py-16 px-6 text-center text-ink-soft italic">
+        <div
+          role="status"
+          aria-live="polite"
+          className="bg-surface border border-line border-dashed rounded-md py-16 px-6 text-center text-ink-soft italic"
+        >
           {emptyHint}
         </div>
       ) : (
@@ -192,9 +225,12 @@ export function FlashcardView({ progress }: Props) {
         </>
       )}
 
-      <div className="bg-surface border border-line rounded-md p-5 text-sm divide-y divide-line">
+      <section
+        aria-label="字卡設定"
+        className="bg-surface border border-line rounded-md p-5 text-sm divide-y divide-line"
+      >
         <SettingRow
-          label="順序"
+          label="範圍"
           value={scope}
           options={[
             { value: 'random', label: '隨機' },
@@ -223,7 +259,7 @@ export function FlashcardView({ progress }: Props) {
           onChange={setSpeechRate}
           isEqual={(a, b) => Math.abs(a - b) < 0.01}
         />
-      </div>
+      </section>
     </div>
   );
 }
