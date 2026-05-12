@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { execSync } from 'node:child_process';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -22,5 +23,12 @@ export default defineConfig({
   server: {
     port: 5173,
     open: false,
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
+    css: false,
+    restoreMocks: true,
+    clearMocks: true,
   },
 });
