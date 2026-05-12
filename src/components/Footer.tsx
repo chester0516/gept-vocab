@@ -6,16 +6,19 @@ export function Footer() {
   const commitUrl = commit === 'dev' ? null : `${REPO_URL}/commit/${commit}`;
 
   return (
-    <footer className="max-w-3xl mx-auto px-4 mt-8 mb-4 text-center">
-      <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-        如果這個網站對你有幫助，歡迎贊助或來信回饋
+    <footer className="max-w-3xl mx-auto px-5 mt-12 mb-4 text-center">
+      <div className="mx-auto h-px w-16 bg-line mb-6" aria-hidden="true" />
+      <p className="font-serif italic text-[15px] text-ink-soft mb-4 leading-relaxed">
+        如果這個網站對你有幫助，
+        <br className="sm:hidden" />
+        歡迎贊助或來信回饋
       </p>
       <div className="flex flex-wrap items-center justify-center gap-2">
         <a
           href="https://paypal.me/chester0516"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0070ba] hover:bg-[#005ea6] active:bg-[#004d8a] text-white font-medium text-sm transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-ink/15 bg-surface hover:bg-paper hover:border-ink/30 text-ink font-medium text-sm transition-colors"
         >
           <svg
             width="16"
@@ -23,7 +26,7 @@ export function Footer() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
@@ -35,7 +38,7 @@ export function Footer() {
         <a
           href="mailto:chester0516@gmail.com"
           title="chester0516@gmail.com"
-          className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors"
+          className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-ink/15 bg-surface hover:bg-paper hover:border-ink/30 text-ink transition-colors"
         >
           <svg
             width="18"
@@ -43,7 +46,7 @@ export function Footer() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
@@ -54,7 +57,7 @@ export function Footer() {
           <span className="sr-only">Email me</span>
         </a>
       </div>
-      <p className="mt-4 text-[11px] text-slate-400 dark:text-slate-500">
+      <p className="mt-5 text-[11px] text-ink-mute tracking-wide">
         v{version}
         {' · '}
         {commitUrl ? (
@@ -62,7 +65,7 @@ export function Footer() {
             href={commitUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono hover:text-slate-600 dark:hover:text-slate-300 hover:underline"
+            className="font-mono hover:text-ink-soft hover:underline underline-offset-4"
           >
             {commit}
           </a>

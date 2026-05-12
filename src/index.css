@@ -3,6 +3,37 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* warm ivory / academic palette — RGB triplets so Tailwind can apply alpha */
+    --bg: 249 245 236;
+    --surface: 255 254 251;
+    --ink: 28 26 23;
+    --ink-soft: 87 83 75;
+    --ink-mute: 138 133 122;
+    --line: 230 225 213;
+    --accent: 43 58 85;
+    --accent-soft: 229 233 241;
+    --gold: 184 137 92;
+    --success: 74 106 61;
+    --warn: 168 97 44;
+    --danger: 138 69 48;
+  }
+
+  .dark {
+    --bg: 26 24 21;
+    --surface: 37 34 30;
+    --ink: 243 238 227;
+    --ink-soft: 184 178 164;
+    --ink-mute: 122 117 105;
+    --line: 58 53 46;
+    --accent: 158 179 212;
+    --accent-soft: 43 58 85;
+    --gold: 212 180 131;
+    --success: 143 174 126;
+    --warn: 212 154 106;
+    --danger: 192 133 115;
+  }
+
   html,
   body,
   #root {
@@ -10,7 +41,30 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100;
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings:
+      'cv11',
+      'ss01',
+      'kern';
+    /* Subtle paper grain — inline SVG noise, very low opacity */
+    background-image:
+      linear-gradient(rgb(var(--bg)) 0 0),
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.16 0 0 0 0 0.13 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed;
+    background-blend-mode: normal, multiply;
+  }
+
+  .dark body {
+    background-image:
+      linear-gradient(rgb(var(--bg)) 0 0),
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.93 0 0 0 0 0.86 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-blend-mode: normal, screen;
+  }
+
+  /* selection */
+  ::selection {
+    background-color: rgb(var(--accent) / 0.18);
+    color: rgb(var(--ink));
   }
 }
 
@@ -22,7 +76,7 @@
   .card-flip-inner {
     display: grid;
     transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .card-flip-inner.is-flipped {
@@ -38,5 +92,10 @@
 
   .card-face-back {
     transform: rotateY(180deg);
+  }
+
+  /* small-caps style label used for section headers like "順序"、"語速" */
+  .label-sc {
+    @apply text-xs font-medium uppercase tracking-[0.14em] text-ink-mute;
   }
 }
