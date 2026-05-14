@@ -155,4 +155,47 @@ describe('buildQuiz', () => {
       expect(q.answerIndex).toBeLessThan(4);
     }
   });
+
+  it('produces cloze questions with prompt and blankAnswer', () => {
+    const out = buildQuiz(
+      { level: 'elementary', types: ['cloze'], count: 3, source: 'all' },
+      emptyProgress(),
+    );
+    expect(out).toHaveLength(3);
+    for (const q of out) {
+      expect(q.type).toBe('cloze');
+      expect(q.prompt).toContain('______');
+      expect(q.blankAnswer).toBeTruthy();
+      expect(q.options).toHaveLength(4);
+      expect(q.options[q.answerIndex]).toBe(q.word.word);
+    }
+  });
+
+  it('cycles cloze with other types', () => {
+    const out = buildQuiz(
+      { level: 'elementary', types: ['en2zh', 'cloze'], count: 4, source: 'all' },
+      emptyProgress(),
+    );
+    expect(out.map((q) => q.type)).toEqual(['en2zh', 'cloze', 'en2zh', 'cloze']);
+  });
+
+  it('omits promptZh by default and includes it when showClozeHint=true', () => {
+    const off = buildQuiz(
+      { level: 'elementary', types: ['cloze'], count: 1, source: 'all' },
+      emptyProgress(),
+    );
+    expect(off[0].promptZh).toBeUndefined();
+
+    const on = buildQuiz(
+      {
+        level: 'elementary',
+        types: ['cloze'],
+        count: 1,
+        source: 'all',
+        showClozeHint: true,
+      },
+      emptyProgress(),
+    );
+    expect(on[0].promptZh).toBeTruthy();
+  });
 });
