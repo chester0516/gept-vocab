@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { findBlankSpan } from './cloze';
+import type { WordWithLevel } from '../types';
+import { findBlankSpan, pickClozeDistractors } from './cloze';
 import { allWords } from './data';
 
 describe('findBlankSpan', () => {
@@ -135,5 +136,55 @@ describe('findBlankSpan dataset coverage', () => {
       console.log('miss samples:', miss.slice(0, 20));
     }
     expect(rate).toBeGreaterThanOrEqual(0.99);
+  });
+});
+
+const w = (id: string, word: string, pos: string): WordWithLevel => ({
+  id,
+  word,
+  pos,
+  zh: '',
+  example: '',
+  example_zh: '',
+  level: 'elementary',
+});
+
+describe('pickClozeDistractors', () => {
+  const target = w('1', 'cat', 'n.');
+
+  it('returns 3 distractors all matching POS', () => {
+    const pool = [
+      target,
+      w('2', 'dog', 'n.'),
+      w('3', 'bird', 'n.'),
+      w('4', 'fish', 'n.'),
+      w('5', 'run', 'v.'),
+      w('6', 'fast', 'adj.'),
+    ];
+    const out = pickClozeDistractors(pool, target, 3);
+    expect(out).toHaveLength(3);
+    expect(out).not.toContain('cat');
+    expect(new Set(out).size).toBe(3);
+    const posOf = (word: string) => pool.find((p) => p.word === word)?.pos;
+    for (const word of out) expect(posOf(word)).toBe('n.');
+  });
+
+  it('falls back to other POS when same-pos pool is too small', () => {
+    const pool = [
+      target,
+      w('2', 'dog', 'n.'),
+      w('3', 'run', 'v.'),
+      w('4', 'jump', 'v.'),
+      w('5', 'fast', 'adj.'),
+    ];
+    const out = pickClozeDistractors(pool, target, 3);
+    expect(out).toHaveLength(3);
+    expect(out).toContain('dog');
+  });
+
+  it('returns fewer than count when whole pool cannot supply enough', () => {
+    const pool = [target, w('2', 'dog', 'n.')];
+    const out = pickClozeDistractors(pool, target, 3);
+    expect(out).toHaveLength(1);
   });
 });

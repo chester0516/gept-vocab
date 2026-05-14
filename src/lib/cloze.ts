@@ -1,3 +1,5 @@
+import type { WordWithLevel } from '../types';
+
 export interface BlankSpan {
   start: number;
   end: number;
@@ -48,4 +50,42 @@ function findFirstMatch(forms: string[], example: string): BlankSpan | null {
 
 export function findBlankSpan(word: string, example: string): BlankSpan | null {
   return findFirstMatch(candidatesFromRules(word), example);
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+export function pickClozeDistractors(
+  pool: WordWithLevel[],
+  target: WordWithLevel,
+  count: number,
+): string[] {
+  const seen = new Set<string>([target.word]);
+  const out: string[] = [];
+
+  const samePos = shuffle(pool.filter((w) => w.id !== target.id && w.pos === target.pos));
+  for (const w of samePos) {
+    if (out.length === count) break;
+    if (seen.has(w.word)) continue;
+    seen.add(w.word);
+    out.push(w.word);
+  }
+
+  if (out.length < count) {
+    const rest = shuffle(pool.filter((w) => w.id !== target.id && w.pos !== target.pos));
+    for (const w of rest) {
+      if (out.length === count) break;
+      if (seen.has(w.word)) continue;
+      seen.add(w.word);
+      out.push(w.word);
+    }
+  }
+
+  return out;
 }
