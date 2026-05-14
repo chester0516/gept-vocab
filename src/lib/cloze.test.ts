@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { findBlankSpan } from './cloze';
+import { allWords } from './data';
 
 describe('findBlankSpan', () => {
   it('matches exact word', () => {
@@ -118,5 +119,21 @@ describe('findBlankSpan', () => {
     expect(findBlankSpan('swear', 'She swore to protect her sister.')).toMatchObject({
       matchedForm: 'swore',
     });
+  });
+});
+
+describe('findBlankSpan dataset coverage', () => {
+  it('matches at least 99% of words in their own example', () => {
+    let hit = 0;
+    const miss: string[] = [];
+    for (const w of allWords) {
+      if (findBlankSpan(w.word, w.example ?? '')) hit++;
+      else miss.push(w.word);
+    }
+    const rate = hit / allWords.length;
+    if (rate < 0.99) {
+      console.log('miss samples:', miss.slice(0, 20));
+    }
+    expect(rate).toBeGreaterThanOrEqual(0.99);
   });
 });
