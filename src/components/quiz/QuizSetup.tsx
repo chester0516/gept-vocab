@@ -17,6 +17,7 @@ const allTypes: { id: QuizType; label: string; desc: string }[] = [
   { id: 'en2zh', label: '英選中', desc: '看英文選中譯' },
   { id: 'zh2en', label: '中選英', desc: '看中譯選英文' },
   { id: 'listen', label: '聽音選詞', desc: '播放發音選拼寫' },
+  { id: 'cloze', label: '例句填空', desc: '看上下文選單字' },
 ];
 
 const sources: { id: WordSource; label: string }[] = [
@@ -69,7 +70,7 @@ export function QuizSetup({ progress, onStart }: Props) {
 
       <section>
         <h2 className="label-sc mb-3">題型（可複選）</h2>
-        <div className="grid sm:grid-cols-3 gap-2">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-2">
           {allTypes.map((t) => {
             const active = types.includes(t.id);
             return (
