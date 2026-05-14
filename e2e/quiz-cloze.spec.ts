@@ -48,6 +48,11 @@ test.describe('Quiz cloze (例句填空)', () => {
 
     // The Chinese hint paragraph (with CJK characters) should be visible inside the prompt card
     const promptCard = page.locator('.bg-surface').filter({ hasText: '______' }).first();
-    await expect(promptCard.locator('p').filter({ hasText: /[一-鿿]/ }).first()).toBeVisible();
+    await expect(
+      promptCard
+        .locator('p')
+        .filter({ hasText: /[一-鿿]/ })
+        .first(),
+    ).toBeVisible();
   });
 });
