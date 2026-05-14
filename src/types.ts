@@ -15,13 +15,17 @@ export interface WordWithLevel extends Word {
 
 export type View = 'home' | 'flashcard' | 'quiz' | 'library';
 
-export type QuizType = 'en2zh' | 'zh2en' | 'listen';
+export type QuizType = 'en2zh' | 'zh2en' | 'listen' | 'cloze';
 
 export interface QuizQuestion {
   type: QuizType;
   word: WordWithLevel;
   options: string[];
   answerIndex: number;
+  // cloze 專用（其他題型為 undefined）
+  prompt?: string; // 已挖空例句: "The doctor ______ me to drink more water"
+  promptZh?: string; // example_zh，僅在 showClozeHint=true 時填入
+  blankAnswer?: string; // 原例句中該字實際出現的形態（變形原樣，保留大小寫）
 }
 
 export interface QuizAnswer {

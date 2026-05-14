@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocalStorageState } from '../../hooks/useLocalStorageState';
 import type { UseProgress } from '../../hooks/useProgress';
 import { selectSourceWords } from '../../lib/quiz';
 import type { Level, QuizType, WordSource } from '../../types';
@@ -10,6 +11,7 @@ interface Props {
     types: QuizType[];
     count: number;
     source: WordSource;
+    showClozeHint: boolean;
   }) => void;
 }
 
@@ -17,6 +19,7 @@ const allTypes: { id: QuizType; label: string; desc: string }[] = [
   { id: 'en2zh', label: '英選中', desc: '看英文選中譯' },
   { id: 'zh2en', label: '中選英', desc: '看中譯選英文' },
   { id: 'listen', label: '聽音選詞', desc: '播放發音選拼寫' },
+  { id: 'cloze', label: '例句填空', desc: '看上下文選單字' },
 ];
 
 const sources: { id: WordSource; label: string }[] = [
@@ -31,6 +34,10 @@ export function QuizSetup({ progress, onStart }: Props) {
   const [types, setTypes] = useState<QuizType[]>(['en2zh']);
   const [count, setCount] = useState<number>(10);
   const [source, setSource] = useState<WordSource>('all');
+  const [showClozeHint, setShowClozeHint] = useLocalStorageState<boolean>(
+    'quiz.showClozeHint',
+    false,
+  );
 
   const toggleType = (id: QuizType) => {
     setTypes((cur) => (cur.includes(id) ? cur.filter((t) => t !== id) : [...cur, id]));
@@ -69,7 +76,7 @@ export function QuizSetup({ progress, onStart }: Props) {
 
       <section>
         <h2 className="label-sc mb-3">題型（可複選）</h2>
-        <div className="grid sm:grid-cols-3 gap-2">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-2">
           {allTypes.map((t) => {
             const active = types.includes(t.id);
             return (
@@ -89,6 +96,17 @@ export function QuizSetup({ progress, onStart }: Props) {
             );
           })}
         </div>
+        {types.includes('cloze') && (
+          <label className="mt-3 flex items-center gap-2 text-sm text-ink-soft cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={showClozeHint}
+              onChange={(e) => setShowClozeHint(e.target.checked)}
+              className="rounded border-line"
+            />
+            <span>例句填空時顯示中文提示</span>
+          </label>
+        )}
       </section>
 
       <section>
@@ -137,7 +155,7 @@ export function QuizSetup({ progress, onStart }: Props) {
       <button
         type="button"
         disabled={!canStart}
-        onClick={() => onStart({ level, types, count, source })}
+        onClick={() => onStart({ level, types, count, source, showClozeHint })}
         className="w-full py-3 rounded-md bg-ink hover:bg-ink/90 text-paper font-medium tracking-wide disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         {canStart ? '開始測驗' : types.length === 0 ? '請至少選一種題型' : '此範圍沒有單字'}

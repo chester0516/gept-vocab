@@ -6,6 +6,7 @@ import type {
   WordSource,
   WordWithLevel,
 } from '../types';
+import { buildClozeQuestion } from './cloze';
 import { allWords, elementaryWords, getWordsByLevel, intermediateWords } from './data';
 
 function shuffle<T>(arr: T[]): T[] {
@@ -77,6 +78,7 @@ export interface QuizConfig {
   types: QuizType[];
   count: number;
   source: WordSource;
+  showClozeHint?: boolean;
 }
 
 export function selectSourceWords(config: QuizConfig, progress: ProgressState): WordWithLevel[] {
@@ -106,12 +108,23 @@ export function buildQuiz(config: QuizConfig, progress: ProgressState): QuizQues
         ? elementaryWords
         : intermediateWords;
 
-  const types = config.types.length > 0 ? config.types : ['en2zh' as QuizType];
+  const types = config.types.length > 0 ? config.types : (['en2zh'] as QuizType[]);
+  const wantedCount = Math.min(config.count, sourcePool.length);
+  const shuffled = shuffle(sourcePool);
+  const out: QuizQuestion[] = [];
+  let cursor = 0;
 
-  const picked = shuffle(sourcePool).slice(0, Math.min(config.count, sourcePool.length));
-
-  return picked.map((word, i) => {
-    const type = types[i % types.length];
-    return buildQuestion(word, type, distractorPool);
-  });
+  while (out.length < wantedCount && cursor < shuffled.length) {
+    const word = shuffled[cursor++];
+    const type = types[out.length % types.length];
+    let q: QuizQuestion | null;
+    if (type === 'cloze') {
+      q = buildClozeQuestion(word, distractorPool, config.showClozeHint ?? false);
+    } else {
+      q = buildQuestion(word, type, distractorPool);
+    }
+    if (q) out.push(q);
+    // null from cloze (variant detection failed) → skip and try next word
+  }
+  return out;
 }

@@ -29,6 +29,7 @@ export function QuizView({ progress, onHome }: Props) {
     types: QuizType[];
     count: number;
     source: WordSource;
+    showClozeHint: boolean;
   }) => {
     const questions = buildQuiz(config, progress.state);
     if (questions.length === 0) return;
