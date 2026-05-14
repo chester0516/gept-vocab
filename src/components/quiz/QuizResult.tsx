@@ -51,18 +51,40 @@ export function QuizResult({ answers, durationMs, onRestart, onHome }: Props) {
             <span className="label-sc">已加入錯題清單</span>
           </div>
           <ul className="divide-y divide-line">
-            {wrong.map((a) => (
-              <li key={a.question.word.id} className="px-5 py-3 flex items-center gap-3">
-                <SpeakerButton text={a.question.word.word} size="sm" />
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-lg text-ink">{a.question.word.word}</div>
-                  <div className="text-sm text-ink-soft truncate">{a.question.word.zh}</div>
-                </div>
-                <div className="label-sc">
-                  {a.question.word.level === 'elementary' ? '初級' : '中級'}
-                </div>
-              </li>
-            ))}
+            {wrong.map((a) => {
+              const q = a.question;
+              if (q.type === 'cloze') {
+                const example = q.word.example ?? '';
+                const idx = q.blankAnswer ? example.indexOf(q.blankAnswer) : -1;
+                const before = idx >= 0 ? example.slice(0, idx) : example;
+                const after =
+                  idx >= 0 && q.blankAnswer ? example.slice(idx + q.blankAnswer.length) : '';
+                return (
+                  <li key={q.word.id} className="px-5 py-3 space-y-1">
+                    <div className="text-sm text-ink leading-relaxed">
+                      {before}
+                      <span className="font-semibold text-success">[{q.blankAnswer}]</span>
+                      {after}
+                    </div>
+                    <div className="text-xs text-ink-mute">
+                      你選：
+                      <span className="font-medium text-danger">{q.options[a.selectedIndex]}</span>
+                      <span className="ml-2 text-ink-mute">正解：{q.options[q.answerIndex]}</span>
+                    </div>
+                  </li>
+                );
+              }
+              return (
+                <li key={q.word.id} className="px-5 py-3 flex items-center gap-3">
+                  <SpeakerButton text={q.word.word} size="sm" />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-lg text-ink">{q.word.word}</div>
+                    <div className="text-sm text-ink-soft truncate">{q.word.zh}</div>
+                  </div>
+                  <div className="label-sc">{q.word.level === 'elementary' ? '初級' : '中級'}</div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
