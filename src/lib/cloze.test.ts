@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { WordWithLevel } from '../types';
-import { findBlankSpan, pickClozeDistractors } from './cloze';
+import { buildClozeQuestion, findBlankSpan, pickClozeDistractors } from './cloze';
 import { allWords } from './data';
 
 describe('findBlankSpan', () => {
@@ -186,5 +186,62 @@ describe('pickClozeDistractors', () => {
     const pool = [target, w('2', 'dog', 'n.')];
     const out = pickClozeDistractors(pool, target, 3);
     expect(out).toHaveLength(1);
+  });
+});
+
+describe('buildClozeQuestion', () => {
+  const target: WordWithLevel = {
+    id: '1',
+    word: 'advise',
+    pos: 'v.',
+    zh: '建議',
+    example: 'The doctor advised me to drink more water.',
+    example_zh: '醫生建議我多喝水。',
+    level: 'elementary',
+  };
+  const pool: WordWithLevel[] = [
+    target,
+    w('2', 'agree', 'v.'),
+    w('3', 'ask', 'v.'),
+    w('4', 'bring', 'v.'),
+    w('5', 'cat', 'n.'),
+  ];
+
+  it('produces prompt with blank replacing the variant form', () => {
+    const q = buildClozeQuestion(target, pool, false);
+    expect(q).not.toBeNull();
+    if (!q) return;
+    expect(q.type).toBe('cloze');
+    expect(q.prompt).toBe('The doctor ______ me to drink more water.');
+    expect(q.blankAnswer).toBe('advised');
+  });
+
+  it('options contain the base form, not the variant', () => {
+    const q = buildClozeQuestion(target, pool, false);
+    if (!q) throw new Error('expected question');
+    expect(q.options).toContain('advise');
+    expect(q.options).not.toContain('advised');
+    expect(q.options[q.answerIndex]).toBe('advise');
+    expect(q.options).toHaveLength(4);
+  });
+
+  it('omits promptZh when includeHint=false', () => {
+    const q = buildClozeQuestion(target, pool, false);
+    if (!q) throw new Error('expected question');
+    expect(q.promptZh).toBeUndefined();
+  });
+
+  it('includes promptZh when includeHint=true', () => {
+    const q = buildClozeQuestion(target, pool, true);
+    if (!q) throw new Error('expected question');
+    expect(q.promptZh).toBe('醫生建議我多喝水。');
+  });
+
+  it('returns null when the example does not contain the word', () => {
+    const broken: WordWithLevel = {
+      ...target,
+      example: 'Completely unrelated example sentence.',
+    };
+    expect(buildClozeQuestion(broken, pool, false)).toBeNull();
   });
 });

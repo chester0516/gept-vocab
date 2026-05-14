@@ -1,4 +1,6 @@
-import type { WordWithLevel } from '../types';
+import type { QuizQuestion, WordWithLevel } from '../types';
+
+const BLANK = '______'; // 6 個底線
 
 export interface BlankSpan {
   start: number;
@@ -88,4 +90,28 @@ export function pickClozeDistractors(
   }
 
   return out;
+}
+
+export function buildClozeQuestion(
+  word: WordWithLevel,
+  pool: WordWithLevel[],
+  includeHint: boolean,
+): QuizQuestion | null {
+  const example = word.example ?? '';
+  const span = findBlankSpan(word.word, example);
+  if (!span) return null;
+
+  const prompt = example.slice(0, span.start) + BLANK + example.slice(span.end);
+  const distractors = pickClozeDistractors(pool, word, 3);
+  const options = shuffle([word.word, ...distractors]);
+
+  return {
+    type: 'cloze',
+    word,
+    options,
+    answerIndex: options.indexOf(word.word),
+    prompt,
+    promptZh: includeHint ? word.example_zh : undefined,
+    blankAnswer: span.matchedForm,
+  };
 }
