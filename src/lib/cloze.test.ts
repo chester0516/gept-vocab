@@ -79,4 +79,44 @@ describe('findBlankSpan', () => {
     expect(r).not.toBeNull();
     if (r) expect(ex.slice(r.start, r.end)).toBe('Abandon');
   });
+
+  it('matches CVC doubling: nod → nodded', () => {
+    expect(findBlankSpan('nod', 'He nodded his head.')).toMatchObject({ matchedForm: 'nodded' });
+  });
+
+  it('matches CVC doubling: tap → tapped', () => {
+    expect(findBlankSpan('tap', 'She tapped on the shoulder.')).toMatchObject({
+      matchedForm: 'tapped',
+    });
+  });
+
+  it('matches CVC doubling: shrug → shrugged', () => {
+    expect(findBlankSpan('shrug', 'He shrugged his shoulders.')).toMatchObject({
+      matchedForm: 'shrugged',
+    });
+  });
+
+  it('matches irregular: shake → shook', () => {
+    expect(findBlankSpan('shake', 'The boy shook the bottle.')).toMatchObject({
+      matchedForm: 'shook',
+    });
+  });
+
+  it('matches irregular: shoot → shot', () => {
+    expect(findBlankSpan('shoot', 'The archer shot an arrow.')).toMatchObject({
+      matchedForm: 'shot',
+    });
+  });
+
+  it('matches irregular: sting → stung', () => {
+    expect(findBlankSpan('sting', 'The bee stung her finger.')).toMatchObject({
+      matchedForm: 'stung',
+    });
+  });
+
+  it('matches irregular: swear → swore', () => {
+    expect(findBlankSpan('swear', 'She swore to protect her sister.')).toMatchObject({
+      matchedForm: 'swore',
+    });
+  });
 });
