@@ -77,6 +77,7 @@ export interface QuizConfig {
   types: QuizType[];
   count: number;
   source: WordSource;
+  showClozeHint?: boolean;
 }
 
 export function selectSourceWords(config: QuizConfig, progress: ProgressState): WordWithLevel[] {
