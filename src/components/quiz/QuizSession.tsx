@@ -61,7 +61,9 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
       ? '請選擇正確的中文意思'
       : q.type === 'zh2en'
         ? '請選擇對應的英文單字'
-        : '聽發音選正確拼寫';
+        : q.type === 'listen'
+          ? '聽發音選正確拼寫'
+          : '依上下文選出正確的字（原型）';
 
   return (
     <div className="max-w-xl mx-auto px-5 py-8 space-y-6">
@@ -104,6 +106,25 @@ export function QuizSession({ questions, onFinish, onCancel }: Props) {
             <div className="flex flex-col items-center gap-3">
               <SpeakerButton text={q.word.word} size="lg" />
               <div className="label-sc">點擊喇叭再聽一次</div>
+            </div>
+          )}
+          {q.type === 'cloze' && (
+            <div className="space-y-3">
+              <p className="text-lg sm:text-xl text-ink leading-relaxed tracking-tight">
+                {(() => {
+                  const parts = q.prompt?.split('______') ?? [];
+                  return parts.map((part, i) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: prompt is static per question
+                    <span key={`seg-${i}`}>
+                      {part}
+                      {i < parts.length - 1 && (
+                        <span className="font-mono text-ink tracking-wider">______</span>
+                      )}
+                    </span>
+                  ));
+                })()}
+              </p>
+              {q.promptZh && <p className="text-sm text-ink-mute leading-relaxed">{q.promptZh}</p>}
             </div>
           )}
         </div>
