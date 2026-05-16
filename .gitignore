@@ -16,3 +16,6 @@ dist-ssr
 # Claude Code local files (per-user)
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+
+# Local working outputs (plans, pr-*, etc.) — not version-controlled
+outputs/
